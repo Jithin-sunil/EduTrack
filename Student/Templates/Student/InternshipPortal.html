@@ -1,0 +1,107 @@
+{% extends 'Student/StudentBase.html' %}
+
+{% block title %}Internship Hub | EduTrack-X{% endblock %}
+{% block header_title %}Internship Hub & Portals{% endblock %}
+{% block header_subtitle %}Browse corporate training opportunities, track applications, and maintain logbooks{% endblock %}
+{% block active_intern %}active{% endblock %}
+
+{% block content %}
+<!-- Active/Ongoing Internship Tracker -->
+{% if active_internship %}
+<div class="glass-card" style="border-color: var(--primary); background: rgba(6, 182, 212, 0.03); margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <span class="badge badge-success" style="margin-bottom: 10px;">
+            {% if active_internship.internship_status == 2 %}Ongoing Internship{% else %}Completed Internship{% endif %}
+        </span>
+        <h2 style="font-size: 24px; font-family: var(--font-outfit);">{{ active_internship.internship_title }}</h2>
+        <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">
+            Provider: <strong>{{ active_internship.company.company_name }}</strong> • Coordinator: <strong>{{ active_internship.faculty.faculty_name|default:"Unassigned" }}</strong>
+        </p>
+        <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">
+            Timeline: {{ active_internship.internship_startdate }} to {{ active_internship.internship_enddate }}
+        </p>
+    </div>
+    
+    <div style="display: flex; gap: 15px;">
+        <a href="{% url 'Student:InternshipLog' active_internship.internship_id %}" class="btn btn-primary">
+            <i class="fa-solid fa-book"></i> Digital Logbook
+        </a>
+        {% if active_internship.internship_status == 2 %}
+        <a href="{% url 'Student:InternshipReport' active_internship.internship_id %}" class="btn btn-success">
+            <i class="fa-solid fa-file-arrow-up"></i> Submit Final Report
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Vacancies and Applications -->
+<div style="display: grid; grid-template-columns: 3fr 2fr; gap: 30px;">
+    <!-- Available Opportunities -->
+    <div class="glass-card">
+        <h3>Available Internship Vacancies</h3>
+        
+        {% if vacancies %}
+        <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 20px;">
+            {% for vac in vacancies %}
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                    <h4 style="font-size: 18px; margin-bottom: 5px; font-family: var(--font-outfit);">{{ vac.internship_title }}</h4>
+                    <span style="color: var(--primary); font-size: 14px; font-weight: 500; display: block; margin-bottom: 12px;">{{ vac.company.company_name }}</span>
+                    <p style="color: var(--text-muted); font-size: 14px; line-height: 1.5; margin-bottom: 12px;">{{ vac.internship_description }}</p>
+                    <span style="color: var(--text-muted); font-size: 12px; display: block;">HQ Location: {{ vac.company.company_address }}</span>
+                </div>
+                
+                <a href="{% url 'Student:ApplyInternship' vac.internship_id %}" class="btn btn-primary" style="padding: 10px 20px; font-size: 13px; white-space: nowrap;">
+                    Apply Opportunity
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">No new internship opportunities are published at this time.</p>
+        {% endif %}
+    </div>
+    
+    <!-- Student Applications -->
+    <div class="glass-card">
+        <h3>My Internship Applications</h3>
+        
+        {% if my_internships %}
+        <div class="custom-table-container">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Opportunity</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in my_internships %}
+                    <tr>
+                        <td>
+                            <strong style="display: block;">{{ item.internship_title }}</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">{{ item.company.company_name }}</span>
+                        </td>
+                        <td>
+                            {% if item.internship_status == 1 %}
+                            <span class="badge badge-pending">Applied</span>
+                            {% elif item.internship_status == 2 %}
+                            <span class="badge badge-success" style="background: rgba(6, 182, 212, 0.2); color: var(--primary); border-color: rgba(6, 182, 212, 0.4);">Ongoing</span>
+                            {% elif item.internship_status == 3 %}
+                            <span class="badge badge-success">Report Submitted</span>
+                            {% elif item.internship_status == 4 %}
+                            <span class="badge badge-danger">Rejected</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">You haven't submitted any internship applications yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

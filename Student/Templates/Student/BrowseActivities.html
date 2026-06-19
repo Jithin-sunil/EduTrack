@@ -1,0 +1,75 @@
+{% extends 'Student/StudentBase.html' %}
+
+{% block title %}Browse Activities | EduTrack-X{% endblock %}
+{% block header_title %}FYUGP Academic Activities{% endblock %}
+{% block header_subtitle %}Browse open activities, workshops, seminars, and courses, and register to earn credits{% endblock %}
+{% block active_browse %}active{% endblock %}
+
+{% block content %}
+<div class="glass-card">
+    <h3>Available Programmes and Activities</h3>
+    
+    {% if activities %}
+    <div class="custom-table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Activity Name</th>
+                    <th>Category</th>
+                    <th>Coordinator</th>
+                    <th>Timeline</th>
+                    <th>Duration File</th>
+                    <th>Credit Points</th>
+                    <th style="text-align: right;">Portal Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in activities %}
+                <tr>
+                    <td>
+                        <strong style="font-size: 15px; display: block;">{{ row.activity.activity_name }}</strong>
+                        <span style="font-size: 12px; color: var(--text-muted); line-height: 1.4; display: block; max-width: 250px;">{{ row.activity.activity_description }}</span>
+                    </td>
+                    <td><span class="badge badge-primary">{{ row.activity.activitycategory.activitycategory_name }}</span></td>
+                    <td>{{ row.activity.faculty.faculty_name }}</td>
+                    <td>
+                        <span style="display: block; font-size: 13px;">Start: {{ row.activity.activity_startdate }}</span>
+                        <span style="font-size: 11px; color: var(--text-muted);">End: {{ row.activity.activity_enddate }}</span>
+                    </td>
+                    <td>
+                        {% if row.activity.activity_file %}
+                        <a href="{{ row.activity.activity_file.url }}" target="_blank" style="font-size: 13px;"><i class="fa-solid fa-file-pdf"></i> View Info Brochure</a>
+                        {% else %}
+                        <span style="color: var(--text-muted); font-size: 13px;">No attachment</span>
+                        {% endif %}
+                    </td>
+                    <td><span class="badge badge-success" style="font-size: 13px;">{{ row.activity.activity_credit }} Credits</span></td>
+                    <td style="text-align: right;">
+                        {% if row.reg_status == -1 %}
+                        <a href="{% url 'Student:RegisterActivity' row.activity.activity_id %}" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
+                            <i class="fa-solid fa-plus"></i> Register Now
+                        </a>
+                        {% elif row.reg_status == 0 %}
+                        <span class="badge badge-pending">Registration Pending</span>
+                        {% elif row.reg_status == 1 %}
+                            {% if row.comp_status == 0 %}
+                            <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Registered (Ongoing)</span>
+                            {% elif row.comp_status == 1 %}
+                            <span class="badge badge-success" style="background: rgba(16, 185, 129, 0.3);"><i class="fa-solid fa-graduation-cap"></i> Completed</span>
+                            {% else %}
+                            <span class="badge badge-danger">Failed</span>
+                            {% endif %}
+                        {% else %}
+                        <span class="badge badge-danger">Registration Rejected</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); text-align: center; margin-top: 30px;">No academic activities are currently active or open for registration.</p>
+    {% endif %}
+</div>
+{% endblock %}

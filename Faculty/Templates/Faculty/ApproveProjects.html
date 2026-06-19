@@ -1,0 +1,105 @@
+{% extends 'Faculty/FacultyBase.html' %}
+
+{% block title %}Guided Projects | EduTrack-X{% endblock %}
+{% block header_title %}Guided Research Projects{% endblock %}
+{% block header_subtitle %}Evaluate research topics, proposals, weekly milestones, and grade final projects{% endblock %}
+{% block active_project %}active{% endblock %}
+
+{% block content %}
+<div class="glass-card">
+    <h3>Research Thesis Cohort</h3>
+    
+    {% if projects %}
+    <div class="custom-table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Proposal Date</th>
+                    <th>Student Name</th>
+                    <th>Research Project Title</th>
+                    <th>Document Assets</th>
+                    <th>Review Status</th>
+                    <th style="text-align: right;">Review Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proj in projects %}
+                <tr>
+                    <td>{{ proj.project_date }}</td>
+                    <td>
+                        <strong style="display: block; font-size: 15px;">{{ proj.student.student_name }}</strong>
+                        <span style="font-size: 11px; color: var(--text-muted);">Adm: {{ proj.student.student_admissionno }}</span>
+                    </td>
+                    <td>
+                        <strong style="display: block;">{{ proj.project_title }}</strong>
+                        <span style="font-size: 12px; color: var(--text-muted); line-height: 1.4; display: block; max-width: 250px;">{{ proj.project_description }}</span>
+                    </td>
+                    <td>
+                        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                            {% if proj.project_proposal %}
+                            <a href="{{ proj.project_proposal.url }}" target="_blank"><i class="fa-solid fa-file-invoice"></i> Proposal Brief</a>
+                            {% endif %}
+                            {% if proj.project_report %}
+                            <a href="{{ proj.project_report.url }}" target="_blank"><i class="fa-solid fa-file-contract"></i> Thesis Report</a>
+                            {% else %}
+                            <span style="color: var(--text-muted); font-size: 12px; font-style: italic;">Thesis not uploaded</span>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        {% if proj.project_status == 0 %}
+                        <span class="badge badge-pending">Proposal Submitted</span>
+                        {% elif proj.project_status == 1 %}
+                        <span class="badge badge-success" style="background: rgba(6, 182, 212, 0.15); color: var(--primary);">Proposal Approved</span>
+                        {% elif proj.project_status == 2 %}
+                        <span class="badge badge-danger">Proposal Rejected</span>
+                        {% elif proj.project_status == 3 %}
+                        <span class="badge badge-pending" style="color: var(--primary); border-color: var(--primary);"><i class="fa-solid fa-circle-info"></i> Thesis Submitted</span>
+                        {% elif proj.project_status == 4 %}
+                        <span class="badge badge-success">Project Completed</span>
+                        {% elif proj.project_status == 5 %}
+                        <span class="badge badge-pending" style="color: var(--warning); border-color: var(--warning);">Modifications Requested</span>
+                        {% endif %}
+                    </td>
+                    <td style="text-align: right;">
+                        <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end;">
+                            <!-- If newly proposed -->
+                            {% if proj.project_status == 0 %}
+                            <div style="display: flex; gap: 5px;">
+                                <a href="{% url 'Faculty:ApproveProjectAction' proj.project_id 1 %}" class="btn btn-success" style="padding: 6px 12px; font-size: 12px;">Approve Proposal</a>
+                                <a href="{% url 'Faculty:ApproveProjectAction' proj.project_id 5 %}" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Request Edits</a>
+                                <a href="{% url 'Faculty:ApproveProjectAction' proj.project_id 2 %}" class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;">Reject</a>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- If thesis uploaded and pending review -->
+                            {% if proj.project_status == 3 %}
+                            <div style="display: flex; gap: 5px;">
+                                <a href="{% url 'Faculty:ApproveProjectAction' proj.project_id 4 %}" class="btn btn-success" style="padding: 8px 16px; font-size: 13px;">
+                                    <i class="fa-solid fa-check"></i> Complete & Approve
+                                </a>
+                                <a href="{% url 'Faculty:ApproveProjectAction' proj.project_id 5 %}" class="btn btn-secondary" style="padding: 8px 16px; font-size: 13px;">
+                                    Request Edits
+                                </a>
+                            </div>
+                            {% endif %}
+                            
+                            {% if proj.project_status == 4 %}
+                            <span style="color: var(--success); font-size: 13px; font-weight: 500;"><i class="fa-solid fa-circle-check"></i> Project Graded</span>
+                            {% endif %}
+                            
+                            {% if proj.project_status == 1 %}
+                            <span style="color: var(--text-muted); font-size: 13px; font-style: italic;">Awaiting thesis report upload</span>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">No research projects currently registered under your guide assignment.</p>
+    {% endif %}
+</div>
+{% endblock %}

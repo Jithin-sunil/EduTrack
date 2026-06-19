@@ -1,0 +1,82 @@
+{% extends 'Administrator/AdminBase.html' %}
+
+{% block title %}Company Approval Queue | EduTrack-X{% endblock %}
+{% block header_title %}Internship Provider Registry{% endblock %}
+{% block header_subtitle %}Review company credentials and authorize internship posting access{% endblock %}
+{% block active_company %}active{% endblock %}
+
+{% block content %}
+<div class="glass-card">
+    <h3>Company Accounts Queue</h3>
+    
+    {% if companies %}
+    <div class="custom-table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Company Name</th>
+                    <th>HR Contact</th>
+                    <th>Email / Phone</th>
+                    <th>Credential Proof</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Review Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in companies %}
+                <tr>
+                    <td>
+                        <span style="font-size: 15px; font-weight: 600; display: block;">{{ c.company_name }}</span>
+                        <span style="font-size: 11px; color: var(--text-muted);">Joined: {{ c.company_date }}</span>
+                    </td>
+                    <td>{{ c.company_contactperson }}</td>
+                    <td>
+                        <span style="display: block; font-size: 13px;">{{ c.company_email }}</span>
+                        <span style="font-size: 11px; color: var(--text-muted);">{{ c.company_contact }}</span>
+                    </td>
+                    <td>
+                        {% if c.company_proof %}
+                        <a href="{{ c.company_proof.url }}" target="_blank" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">
+                            <i class="fa-solid fa-file-arrow-down"></i> View Proof Document
+                        </a>
+                        {% else %}
+                        <span style="color: var(--text-muted); font-size: 13px;">No document uploaded</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if c.company_status == 0 %}
+                        <span class="badge badge-pending">Pending Approval</span>
+                        {% elif c.company_status == 1 %}
+                        <span class="badge badge-success">Approved / Active</span>
+                        {% else %}
+                        <span class="badge badge-danger">Rejected</span>
+                        {% endif %}
+                    </td>
+                    <td style="text-align: right;">
+                        {% if c.company_status == 0 %}
+                        <a href="{% url 'Administrator:ApproveCompanyAction' c.company_id 1 %}" class="btn btn-success" style="padding: 8px 16px; font-size: 13px; margin-right: 5px;">
+                            <i class="fa-solid fa-check"></i> Approve
+                        </a>
+                        <a href="{% url 'Administrator:ApproveCompanyAction' c.company_id 2 %}" class="btn btn-danger" style="padding: 8px 16px; font-size: 13px;">
+                            <i class="fa-solid fa-xmark"></i> Reject
+                        </a>
+                        {% elif c.company_status == 1 %}
+                        <a href="{% url 'Administrator:ApproveCompanyAction' c.company_id 2 %}" onclick="return confirm('Deactivate company provider access?')" class="btn btn-danger" style="padding: 8px 12px; font-size: 13px;">
+                            Deactivate
+                        </a>
+                        {% else %}
+                        <a href="{% url 'Administrator:ApproveCompanyAction' c.company_id 1 %}" class="btn btn-success" style="padding: 8px 12px; font-size: 13px;">
+                            Re-activate
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); text-align: center; margin-top: 30px;">No company provider records found.</p>
+    {% endif %}
+</div>
+{% endblock %}

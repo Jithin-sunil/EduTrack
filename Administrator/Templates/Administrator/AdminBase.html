@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Administrator Portal | EduTrack-X{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-logo">
+                <span>EduTrack-X</span>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="{% block active_dashboard %}{% endblock %}">
+                    <a href="{% url 'Administrator:Dashboard' %}">
+                        <i class="fa-solid fa-chart-line"></i> Dashboard
+                    </a>
+                </li>
+                <li class="{% block active_dept %}{% endblock %}">
+                    <a href="{% url 'Administrator:Department' %}">
+                        <i class="fa-solid fa-building"></i> Departments
+                    </a>
+                </li>
+                <li class="{% block active_prog %}{% endblock %}">
+                    <a href="{% url 'Administrator:Programme' %}">
+                        <i class="fa-solid fa-graduation-cap"></i> Programmes
+                    </a>
+                </li>
+                <li class="{% block active_cat %}{% endblock %}">
+                    <a href="{% url 'Administrator:ActivityCategory' %}">
+                        <i class="fa-solid fa-tags"></i> Categories
+                    </a>
+                </li>
+                <li class="{% block active_credit %}{% endblock %}">
+                    <a href="{% url 'Administrator:CreditMaster' %}">
+                        <i class="fa-solid fa-coins"></i> Credit Masters
+                    </a>
+                </li>
+                <li class="{% block active_approval %}{% endblock %}">
+                    <a href="{% url 'Administrator:ApproveStudents' %}">
+                        <i class="fa-solid fa-users-check"></i> Students Queue
+                    </a>
+                </li>
+                <li class="{% block active_faculty %}{% endblock %}">
+                    <a href="{% url 'Administrator:ApproveFaculties' %}">
+                        <i class="fa-solid fa-chalkboard-user"></i> Faculty Queue
+                    </a>
+                </li>
+                <li class="{% block active_company %}{% endblock %}">
+                    <a href="{% url 'Administrator:ApproveCompanies' %}">
+                        <i class="fa-solid fa-building-user"></i> Company Queue
+                    </a>
+                </li>
+                <li class="{% block active_feedback %}{% endblock %}">
+                    <a href="{% url 'Administrator:ViewFeedback' %}">
+                        <i class="fa-solid fa-comments"></i> Feedbacks
+                    </a>
+                </li>
+                <li class="{% block active_complaint %}{% endblock %}">
+                    <a href="{% url 'Administrator:ViewComplaints' %}">
+                        <i class="fa-solid fa-circle-exclamation"></i> Complaints
+                    </a>
+                </li>
+                <li class="{% block active_audit %}{% endblock %}">
+                    <a href="{% url 'Administrator:AuditLogs' %}">
+                        <i class="fa-solid fa-clock-rotate-left"></i> Audit Logs
+                    </a>
+                </li>
+                <li class="{% block active_report %}{% endblock %}">
+                    <a href="{% url 'Administrator:ReportGenerator' %}">
+                        <i class="fa-solid fa-file-invoice"></i> Reports
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <a href="{% url 'Guest:Logout' %}" class="btn btn-secondary" style="width: 100%;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </div>
+        
+        <!-- Page Contents -->
+        <div class="content-area animate-fade-in">
+            <div class="dashboard-header">
+                <div>
+                    <h1>{% block header_title %}Control Center{% endblock %}</h1>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">{% block header_subtitle %}FYUGP Institutional Administration Panel{% endblock %}</p>
+                </div>
+                <div class="user-profile-badge">
+                    <div class="user-name-role">
+                        <span class="name">{{ request.session.name }}</span>
+                        <span class="role">Administrator</span>
+                    </div>
+                </div>
+            </div>
+            
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>

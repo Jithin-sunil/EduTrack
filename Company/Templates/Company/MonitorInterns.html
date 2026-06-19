@@ -1,0 +1,51 @@
+{% extends 'Company/CompanyBase.html' %}
+
+{% block title %}Active Cohort | EduTrack-X{% endblock %}
+{% block header_title %}Active Intern Cohort{% endblock %}
+{% block header_subtitle %}Monitor ongoing training schedules and student logbook records{% endblock %}
+{% block active_monitor %}active{% endblock %}
+
+{% block content %}
+<div class="glass-card">
+    <h3>Active Cohort Roster</h3>
+    
+    {% if interns %}
+    <div class="custom-table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Intern Name</th>
+                    <th>Internship Title</th>
+                    <th>Timeline Schedule</th>
+                    <th>Assigned Coordinator</th>
+                    <th style="text-align: right;">Progress Review</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in interns %}
+                <tr>
+                    <td>
+                        <strong style="display: block; font-size: 15px;">{{ item.student.student_name }}</strong>
+                        <span style="font-size: 11px; color: var(--text-muted);">Adm: {{ item.student.student_admissionno }} • {{ item.student.programme.programme_name }}</span>
+                    </td>
+                    <td><strong>{{ item.internship_title }}</strong></td>
+                    <td>
+                        <span style="font-size: 13px; display: block;">{{ item.internship_startdate }}</span>
+                        <span style="font-size: 11px; color: var(--text-muted);">to {{ item.internship_enddate }}</span>
+                    </td>
+                    <td>{{ item.faculty.faculty_name }}</td>
+                    <td style="text-align: right;">
+                        <a href="{% url 'Company:ViewLogs' item.internship_id %}" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
+                            <i class="fa-solid fa-book-open"></i> View Logbook
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">No active interns in the cohort at present.</p>
+    {% endif %}
+</div>
+{% endblock %}

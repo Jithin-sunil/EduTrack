@@ -1,0 +1,81 @@
+{% extends 'Company/CompanyBase.html' %}
+
+{% block title %}Applicant Queue | EduTrack-X{% endblock %}
+{% block header_title %}Student Applications Registry{% endblock %}
+{% block header_subtitle %}Review candidate student profiles, assign academic guides, and approve internships{% endblock %}
+{% block active_apps %}active{% endblock %}
+
+{% block content %}
+<div class="glass-card">
+    <h3>Pending Internship Applications</h3>
+    
+    {% if apps %}
+    <div class="custom-table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Application Date</th>
+                    <th>Student Candidate</th>
+                    <th>Degree Programme</th>
+                    <th>Opportunity Designation</th>
+                    <th>Verify / Selection Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in apps %}
+                <tr>
+                    <td>{{ app.internship_date }}</td>
+                    <td>
+                        <strong style="display: block; font-size: 15px;">{{ app.student.student_name }}</strong>
+                        <span style="font-size: 11px; color: var(--text-muted);">Email: {{ app.student.student_email }} • Contact: {{ app.student.student_contact }}</span>
+                    </td>
+                    <td>{{ app.student.programme.programme_name }}</td>
+                    <td><strong>{{ app.internship_title }}</strong></td>
+                    <td>
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; text-align: left; max-width: 380px; margin-left: auto;">
+                            <strong style="font-size: 13px; display: block; margin-bottom: 10px;">Configure & Accept Candidate</strong>
+                            
+                            <form action="{% url 'Company:ApproveApplication' app.internship_id %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group" style="margin-bottom: 10px;">
+                                    <label class="form-label" style="font-size: 12px; margin-bottom: 4px;" for="sel_faculty">Assign Faculty Coordinator</label>
+                                    <select name="sel_faculty" id="sel_faculty" required style="padding: 8px 12px; font-size: 13px;">
+                                        <option value="">-- Choose Guide --</option>
+                                        {% for fac in faculties %}
+                                        <option value="{{ fac.faculty_id }}">{{ fac.faculty_name }} ({{ fac.department.department_name }})</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                                    <div class="form-group" style="margin-bottom: 0;">
+                                        <label class="form-label" style="font-size: 12px; margin-bottom: 4px;" for="start_date">Start Date</label>
+                                        <input class="form-control" type="date" name="start_date" id="start_date" required style="padding: 8px; font-size: 12px;">
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 0;">
+                                        <label class="form-label" style="font-size: 12px; margin-bottom: 4px;" for="end_date">End Date</label>
+                                        <input class="form-control" type="date" name="end_date" id="end_date" required style="padding: 8px; font-size: 12px;">
+                                    </div>
+                                </div>
+                                
+                                <div style="display: flex; gap: 8px;">
+                                    <button type="submit" class="btn btn-success" style="padding: 8px 12px; font-size: 12px; flex: 1;">
+                                        <i class="fa-solid fa-circle-check"></i> Approve
+                                    </button>
+                                    <a href="{% url 'Company:RejectApplication' app.internship_id %}" class="btn btn-danger" style="padding: 8px 12px; font-size: 12px; flex: 1; text-align: center;">
+                                        Reject
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">No pending candidate applications found.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'Administrator/AdminBase.html' %}
+
+{% block title %}Institutional Reports | EduTrack-X{% endblock %}
+{% block header_title %}Institutional Analytics & Reports{% endblock %}
+{% block header_subtitle %}Filter and export student progression summaries and credit statistics{% endblock %}
+{% block active_report %}active{% endblock %}
+
+{% block content %}
+<div class="glass-card" style="margin-bottom: 30px;">
+    <h3>Filter Parameters</h3>
+    
+    <form action="" method="get" style="margin-top: 15px; display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 20px; align-items: flex-end;">
+        <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" for="sel_dept">Filter by Department</label>
+            <select name="sel_dept" id="sel_dept" onchange="this.form.submit()">
+                <option value="">-- All Departments --</option>
+                {% for d in departments %}
+                <option value="{{ d.department_id }}" {% if selected_dept == d.department_id %}selected{% endif %}>{{ d.department_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" for="sel_prog">Filter by Programme</label>
+            <select name="sel_prog" id="sel_prog" onchange="this.form.submit()">
+                <option value="">-- All Programmes --</option>
+                {% for p in programmes %}
+                <option value="{{ p.programme_id }}" {% if selected_prog == p.programme_id %}selected{% endif %}>{{ p.programme_name }} ({{ p.department.department_name }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div style="display: flex; gap: 10px;">
+            <a href="{% url 'Administrator:ReportGenerator' %}" class="btn btn-secondary" style="width: 100%; text-align: center;">Reset</a>
+            <button type="button" class="btn btn-primary" onclick="window.print()"><i class="fa-solid fa-print"></i> Print</button>
+        </div>
+    </form>
+</div>
+
+<div class="glass-card">
+    <h3 style="margin-bottom: 20px;">Student Credit Progression Listing</h3>
+    
+    {% if report_data %}
+    <div class="custom-table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Admission No</th>
+                    <th>Student Name</th>
+                    <th>Programme</th>
+                    <th>Current Semester</th>
+                    <th>Required Credits</th>
+                    <th>Earned Credits</th>
+                    <th>Progress Completion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in report_data %}
+                <tr>
+                    <td><strong>{{ row.student.student_admissionno }}</strong></td>
+                    <td>{{ row.student.student_name }}</td>
+                    <td>{{ row.student.programme.programme_name }}</td>
+                    <td>Semester {{ row.student.student_semester }}</td>
+                    <td>{{ row.required_credits }} Credits</td>
+                    <td><span class="badge badge-success">{{ row.earned_credits }} Credits</span></td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 10px; width: 100%;">
+                            <div class="progress-container" style="flex: 1;">
+                                <div class="progress-bar-fill" style="width: {{ row.completion_rate }}%;"></div>
+                            </div>
+                            <span style="font-size: 13px; font-weight: 600; min-width: 40px; text-align: right;">{{ row.completion_rate }}%</span>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); text-align: center; margin-top: 30px;">No students match the filter criteria.</p>
+    {% endif %}
+</div>
+{% endblock %}

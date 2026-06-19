@@ -1,0 +1,42 @@
+{% extends 'Faculty/FacultyBase.html' %}
+
+{% block title %}Evaluate Internship Portfolio | EduTrack-X{% endblock %}
+{% block header_title %}Grade Internship Portfolio{% endblock %}
+{% block header_subtitle %}Evaluate training records, marks allotment, and award graduation credits{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'Faculty:EvaluateInternships' %}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back to Queue</a>
+</div>
+
+<div class="glass-card" style="max-width: 600px; margin: 0 auto;">
+    <h3>Grade Internship Work Portfolio</h3>
+    
+    <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-top: 20px; margin-bottom: 30px;">
+        <span style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 5px;">Student: {{ report.internship.student.student_name }}</span>
+        <strong style="display: block; font-size: 16px;">{{ report.internship.internship_title }}</strong>
+        <span style="color: var(--primary); font-size: 14px; font-weight: 500; display: block; margin-top: 5px;">{{ report.internship.company.company_name }}</span>
+        <div style="margin-top: 15px; display: flex; gap: 20px; font-size: 13px;">
+            <a href="{{ report.internshipreport_file.url }}" target="_blank"><i class="fa-solid fa-file-pdf"></i> Report PDF</a>
+            <a href="{{ report.internshipreport_certificate.url }}" target="_blank"><i class="fa-solid fa-certificate"></i> Certificate Document</a>
+        </div>
+    </div>
+    
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="form-label" for="txt_marks">Allot Marks (out of 100)</label>
+            <input class="form-control" type="number" name="txt_marks" id="txt_marks" required min="0" max="100" placeholder="e.g. 85">
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="txt_remark">Evaluation Summary Remarks</label>
+            <textarea class="form-control" name="txt_remark" id="txt_remark" rows="4" required placeholder="Outline student accomplishments, industry mentor comments..."></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-success" style="width: 100%; margin-top: 15px;">
+            <i class="fa-solid fa-circle-check"></i> Submit Evaluation & Award Credits
+        </button>
+    </form>
+</div>
+{% endblock %}

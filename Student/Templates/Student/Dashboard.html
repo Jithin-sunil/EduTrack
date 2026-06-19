@@ -1,0 +1,111 @@
+{% extends 'Student/StudentBase.html' %}
+
+{% block title %}Dashboard Portfolio | EduTrack-X{% endblock %}
+{% block header_title %}My FYUGP Progress wallet{% endblock %}
+{% block header_subtitle %}Track your earned academic credits, internship checklists, and project progression{% endblock %}
+{% block active_dashboard %}active{% endblock %}
+
+{% block content %}
+<!-- Metrics Cards & Circular Progress -->
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px; margin-bottom: 30px;">
+    <!-- Circular Progress Wallet -->
+    <div class="glass-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; text-align: center;">
+        <h3 style="font-family: var(--font-outfit);">Overall Credits Progress</h3>
+        
+        <!-- Animated Circle Progress -->
+        <div class="circular-progress" style="--percent: {{ prog.credit_summary.progress_percentage }};">
+            <span class="circular-progress-val">{{ prog.credit_summary.progress_percentage }}%</span>
+        </div>
+        
+        <div>
+            <p style="font-size: 15px; font-weight: 500;">{{ prog.credit_summary.earned_total }} / {{ prog.credit_summary.required_total }} Credits Earned</p>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">{{ prog.credit_summary.pending_total }} pending credits to graduate</p>
+        </div>
+    </div>
+    
+    <!-- Progression Eligibility & Student Profile -->
+    <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between; gap: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+                <h3>{{ student.student_name }}</h3>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">
+                    Admission No: <strong>{{ student.student_admissionno }}</strong> • Semester: <strong>{{ student.student_semester }}</strong>
+                </p>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">
+                    Programme: <strong>{{ student.programme.programme_name }}</strong> ({{ student.programme.department.department_name }})
+                </p>
+            </div>
+            <span class="badge {% if prog.is_eligible_graduation %}badge-success{% else %}badge-pending{% endif %}" style="font-size: 14px; padding: 6px 16px;">
+                Status: {{ prog.status_text }}
+            </span>
+        </div>
+        
+        <!-- Checklist items -->
+        <div style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+            <h4 style="font-size: 15px; margin-bottom: 15px;"><i class="fa-solid fa-square-check"></i> Graduation Eligibility Checklist</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 20px;">{% if prog.credits_met %}✅{% else %}❌{% endif %}</span>
+                    <div style="font-size: 13px;">
+                        <strong style="display: block;">Credit Threshold</strong>
+                        <span style="color: var(--text-muted);">{{ prog.credit_summary.earned_total }} / {{ prog.credit_summary.required_total }} Cr</span>
+                    </div>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 20px;">{% if prog.has_internship %}✅{% else %}❌{% endif %}</span>
+                    <div style="font-size: 13px;">
+                        <strong style="display: block;">Internship Status</strong>
+                        <span style="color: var(--text-muted);">{% if prog.has_internship %}Completed{% else %}Pending{% endif %}</span>
+                    </div>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 20px;">{% if prog.has_project %}✅{% else %}❌{% endif %}</span>
+                    <div style="font-size: 13px;">
+                        <strong style="display: block;">Research Project</strong>
+                        <span style="color: var(--text-muted);">{% if prog.has_project %}Approved{% else %}Pending{% endif %}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Category Breakdowns & Notifications -->
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+    <!-- Credit category metrics grid -->
+    <div class="glass-card">
+        <h3 style="margin-bottom: 20px;"><i class="fa-solid fa-wallet"></i> Category-wise Earned Credits</h3>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+            {% for cat, val in prog.credit_summary.categories.items %}
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; text-align: center;">
+                <span style="font-size: 13px; color: var(--text-muted); text-transform: uppercase; font-weight: 500; display: block; margin-bottom: 8px;">{{ cat }}</span>
+                <span style="font-family: var(--font-outfit); font-size: 28px; font-weight: 700; color: var(--primary);">{{ val }}</span>
+                <span style="font-size: 12px; color: var(--text-muted); display: block; margin-top: 4px;">Credits</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- Announcement Feed -->
+    <div class="glass-card">
+        <h3 style="margin-bottom: 20px;"><i class="fa-solid fa-bullhorn"></i> Bulletins</h3>
+        
+        {% if notifications %}
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            {% for note in notifications %}
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px;">
+                <h4 style="font-size: 14px; color: var(--primary); margin-bottom: 5px;">{{ note.notification_title }}</h4>
+                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">{{ note.notification_content }}</p>
+                <span style="font-size: 11px; color: var(--text-muted); display: block; margin-top: 10px; text-align: right;">{{ note.notification_date }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p style="color: var(--text-muted); text-align: center; margin-top: 20px;">No institutional bulletins posted.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

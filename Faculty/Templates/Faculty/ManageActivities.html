@@ -1,0 +1,105 @@
+{% extends 'Faculty/FacultyBase.html' %}
+
+{% block title %}Manage Hosted Activities | EduTrack-X{% endblock %}
+{% block header_title %}Manage Hosted Activities{% endblock %}
+{% block header_subtitle %}Create, announce, and manage completion evaluations for student activities{% endblock %}
+{% block active_activities %}active{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px;">
+    <!-- Create Activity Form -->
+    <div class="glass-card">
+        <h3>Publish New Activity</h3>
+        
+        <form action="" method="post" enctype="multipart/form-data" style="margin-top: 20px;">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label" for="txt_name">Activity Title</label>
+                <input class="form-control" type="text" name="txt_name" id="txt_name" required placeholder="e.g. Kotlin Android Workshop">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="sel_category">Activity Category</label>
+                <select name="sel_category" id="sel_category" required>
+                    <option value="">-- Choose Category --</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.activitycategory_id }}">{{ cat.activitycategory_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="txt_credit">Credit Award Points</label>
+                <input class="form-control" type="number" name="txt_credit" id="txt_credit" required min="1" max="10" value="2">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label class="form-label" for="start_date">Start Date</label>
+                    <input class="form-control" type="date" name="start_date" id="start_date" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="end_date">End Date</label>
+                    <input class="form-control" type="date" name="end_date" id="end_date" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="txt_desc">Activity Summary Description</label>
+                <textarea class="form-control" name="txt_desc" id="txt_desc" rows="4" required placeholder="Detailed outline..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="activity_file">Upload Info Brochure (PDF)</label>
+                <input class="form-control" type="file" name="activity_file" id="activity_file" accept="application/pdf">
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">Publish Announcement</button>
+        </form>
+    </div>
+    
+    <!-- Activities List -->
+    <div class="glass-card">
+        <h3>My Published Activities</h3>
+        
+        {% if activities %}
+        <div class="custom-table-container">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Activity Title</th>
+                        <th>Category</th>
+                        <th>Credits</th>
+                        <th>Duration</th>
+                        <th style="text-align: right;">Manage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for act in activities %}
+                    <tr>
+                        <td>
+                            <strong style="display: block; font-size: 15px;">{{ act.activity_name }}</strong>
+                            <span style="font-size: 11px; color: var(--text-muted);">Created: {{ act.activity_date }}</span>
+                        </td>
+                        <td><span class="badge badge-primary">{{ act.activitycategory.activitycategory_name }}</span></td>
+                        <td><span class="badge badge-success">{{ act.activity_credit }} Cr</span></td>
+                        <td>
+                            <span style="font-size: 13px; display: block;">{{ act.activity_startdate }}</span>
+                            <span style="font-size: 11px; color: var(--text-muted);">to {{ act.activity_enddate }}</span>
+                        </td>
+                        <td style="text-align: right;">
+                            <a href="{% url 'Faculty:ManageCompletion' act.activity_id %}" class="btn btn-primary" style="padding: 6px 12px; font-size: 13px;">
+                                <i class="fa-solid fa-users-gear"></i> Participant Credits
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">No hosted activities created yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

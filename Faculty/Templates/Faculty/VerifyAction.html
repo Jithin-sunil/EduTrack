@@ -1,0 +1,42 @@
+{% extends 'Faculty/FacultyBase.html' %}
+
+{% block title %}Certificate Verification Evaluation | EduTrack-X{% endblock %}
+{% block header_title %}Verify Certificate Evaluation{% endblock %}
+{% block header_subtitle %}Evaluate and award credit points for student uploaded certificate document{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'Faculty:VerifyCertificates' %}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back to Queue</a>
+</div>
+
+<div class="glass-card" style="max-width: 600px; margin: 0 auto;">
+    <h3>{% if status == 1 %}Approve & Award Credits{% else %}Reject Certificate{% endif %}</h3>
+    
+    <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-top: 20px; margin-bottom: 30px;">
+        <span style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 5px;">Uploaded by {{ cert.student.student_name }}</span>
+        <strong style="display: block; font-size: 16px; margin-bottom: 10px;">{{ cert.certificate_title }}</strong>
+        <a href="{{ cert.certificate_file.url }}" target="_blank"><i class="fa-solid fa-file-pdf"></i> View Certificate File</a>
+    </div>
+    
+    <form action="" method="post">
+        {% csrf_token %}
+        
+        {% if status == 1 %}
+        <div class="form-group">
+            <label class="form-label" for="txt_credit">Credits to Award</label>
+            <input class="form-control" type="number" name="txt_credit" id="txt_credit" required min="1" max="10" value="2">
+            <span style="font-size: 12px; color: var(--text-muted); margin-top: 5px; display: block;">Standard FYUGP certificate weight rules: 1 to 4 credits</span>
+        </div>
+        {% endif %}
+        
+        <div class="form-group">
+            <label class="form-label" for="txt_remark">Review Remarks / Feedback</label>
+            <textarea class="form-control" name="txt_remark" id="txt_remark" rows="4" required placeholder="Type comments to student..."></textarea>
+        </div>
+        
+        <button type="submit" class="btn {% if status == 1 %}btn-success{% else %}btn-danger{% endif %}" style="width: 100%; margin-top: 15px;">
+            {% if status == 1 %}Confirm Approval & award{% else %}Confirm Rejection{% endif %}
+        </button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'Administrator/AdminBase.html' %}
+
+{% block title %}Submit Reply | EduTrack-X{% endblock %}
+{% block header_title %}Respond to {{ type }}{% endblock %}
+{% block header_subtitle %}Provide a resolution or comments for the student's submission{% endblock %}
+
+{% block content %}
+<div class="glass-card" style="max-width: 600px; margin: 0 auto;">
+    <h3>Respond to {{ type }}</h3>
+    
+    <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-top: 20px; margin-bottom: 30px;">
+        <span style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 5px;">Submitted by {{ data.student.student_name }} ({{ data.student.student_admissionno }})</span>
+        {% if type == 'Complaint' %}
+        <strong style="display: block; margin-bottom: 10px; font-size: 16px;">{{ data.complaint_title }}</strong>
+        <p style="font-size: 14px; line-height: 1.5; color: var(--text-main);">{{ data.complaint_content }}</p>
+        {% else %}
+        <p style="font-size: 14px; line-height: 1.5; color: var(--text-main);">{{ data.feedback_content }}</p>
+        {% endif %}
+    </div>
+    
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="form-label" for="txt_reply">Your Response / Reply</label>
+            <textarea class="form-control" name="txt_reply" id="txt_reply" rows="5" required placeholder="Type your response here..."></textarea>
+        </div>
+        
+        <div style="display: flex; gap: 15px; margin-top: 20px;">
+            <button type="submit" class="btn btn-primary" style="flex: 1;">Submit Reply</button>
+            <a href="{% if type == 'Complaint' %}{% url 'Administrator:ViewComplaints' %}{% else %}{% url 'Administrator:ViewFeedback' %}{% endif %}" class="btn btn-secondary" style="flex: 1; text-align: center;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

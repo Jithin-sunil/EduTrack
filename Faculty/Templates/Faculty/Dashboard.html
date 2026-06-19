@@ -1,0 +1,48 @@
+{% extends 'Faculty/FacultyBase.html' %}
+
+{% block title %}Faculty Dashboard | EduTrack-X{% endblock %}
+{% block header_title %}Evaluator Dashboard{% endblock %}
+{% block header_subtitle %}Overview of active queues under your coordination{% endblock %}
+{% block active_dashboard %}active{% endblock %}
+
+{% block content %}
+<div class="metrics-grid">
+    <div class="glass-card metric-card">
+        <span class="metric-title"><i class="fa-solid fa-folder-open"></i> Hosted Activities</span>
+        <span class="metric-value">{{ activities_hosted }}</span>
+    </div>
+    
+    <div class="glass-card metric-card" style="{% if pending_registrations > 0 %}border-color: var(--warning);{% endif %}">
+        <span class="metric-title" style="{% if pending_registrations > 0 %}color: var(--warning);{% endif %}">
+            <i class="fa-solid fa-hourglass-start"></i> Pending Registrations
+        </span>
+        <span class="metric-value">{{ pending_registrations }}</span>
+    </div>
+    
+    <div class="glass-card metric-card" style="{% if pending_certs > 0 %}border-color: var(--warning);{% endif %}">
+        <span class="metric-title" style="{% if pending_certs > 0 %}color: var(--warning);{% endif %}">
+            <i class="fa-solid fa-stamp"></i> Pending Certificates
+        </span>
+        <span class="metric-value">{{ pending_certs }}</span>
+    </div>
+    
+    <div class="glass-card metric-card" style="{% if pending_internships > 0 %}border-color: var(--warning);{% endif %}">
+        <span class="metric-title" style="{% if pending_internships > 0 %}color: var(--warning);{% endif %}">
+            <i class="fa-solid fa-hourglass-half"></i> Pending Intern Reports
+        </span>
+        <span class="metric-value">{{ pending_internships }}</span>
+    </div>
+    
+    <div class="glass-card metric-card">
+        <span class="metric-title"><i class="fa-solid fa-lightbulb"></i> Guided Projects</span>
+        <span class="metric-value">{{ projects_guided }}</span>
+    </div>
+</div>
+
+<div class="glass-card" style="margin-top: 30px; text-align: center; padding: 40px;">
+    <h3 style="margin-bottom: 15px; font-family: var(--font-outfit);">Department of {{ faculty.department.department_name }}</h3>
+    <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.6;">
+        Welcome to your FYUGP faculty dashboard. From here, you can verify certificate credentials for students in the Department of {{ faculty.department.department_name }}, evaluate internships, approve project proposals, and publish new academic activities.
+    </p>
+</div>
+{% endblock %}

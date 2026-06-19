@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Registration | EduTrack-X</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="landing-nav">
+        <div class="sidebar-logo">
+            <span>EduTrack-X</span>
+        </div>
+        <div>
+            <a href="{% url 'Guest:index' %}" class="btn btn-secondary">Home</a>
+        </div>
+    </div>
+    
+    <div class="landing-container" style="max-width: 700px; margin-top: 40px; margin-bottom: 60px;">
+        <div class="glass-card animate-fade-in" style="padding: 40px 30px;">
+            <h2 style="text-align: center; margin-bottom: 10px; font-size: 28px;">Internship Provider Registration</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 14px;">Register your company to offer FYUGP internships and select candidates</p>
+            
+            {% if error %}
+            <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); border-radius: 8px; padding: 12px; margin-bottom: 20px; font-size: 14px; color: #f87171; text-align: center;">
+                {{ error }}
+            </div>
+            {% endif %}
+            
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label class="form-label" for="txt_name">Company Name</label>
+                        <input class="form-control" type="text" name="txt_name" id="txt_name" required placeholder="e.g. Google India">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="txt_contactperson">Contact Person / HR Name</label>
+                        <input class="form-control" type="text" name="txt_contactperson" id="txt_contactperson" required placeholder="e.g. Jane Doe">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px;">
+                    <div class="form-group">
+                        <label class="form-label" for="txt_email">Corporate Email Address</label>
+                        <input class="form-control" type="email" name="txt_email" id="txt_email" required placeholder="hr@company.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="txt_contact">Contact Phone</label>
+                        <input class="form-control" type="text" name="txt_contact" id="txt_contact" required placeholder="e.g. +91 9876543212">
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 10px;">
+                    <label class="form-label" for="txt_address">Office Headquarters Address</label>
+                    <textarea name="txt_address" id="txt_address" rows="3" required placeholder="Building, Street, Tech Park, City, PIN"></textarea>
+                </div>
+                
+                <div class="form-group" style="margin-top: 10px;">
+                    <label class="form-label" for="proof">Upload Company Registration Proof (PDF/Image)</label>
+                    <input class="form-control" type="file" name="proof" id="proof" required>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px;">
+                    <div class="form-group">
+                        <label class="form-label" for="txt_password">Password</label>
+                        <input class="form-control" type="password" name="txt_password" id="txt_password" required placeholder="Create Password">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="txt_confirm_password">Confirm Password</label>
+                        <input class="form-control" type="password" name="txt_confirm_password" id="txt_confirm_password" required placeholder="Re-enter Password">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 25px; padding: 14px;">Register Profile</button>
+            </form>
+            
+            <div style="margin-top: 20px; text-align: center; font-size: 14px; color: var(--text-muted);">
+                Already have an account? <a href="{% url 'Guest:Login' %}">Sign In</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

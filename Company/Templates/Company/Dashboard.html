@@ -1,0 +1,34 @@
+{% extends 'Company/CompanyBase.html' %}
+
+{% block title %}Company Dashboard | EduTrack-X{% endblock %}
+{% block header_title %}Corporate Dashboard{% endblock %}
+{% block header_subtitle %}Overview of published internship postings and active cohorts{% endblock %}
+{% block active_dashboard %}active{% endblock %}
+
+{% block content %}
+<div class="metrics-grid">
+    <div class="glass-card metric-card">
+        <span class="metric-title"><i class="fa-solid fa-briefcase"></i> Published Postings</span>
+        <span class="metric-value">{{ posted_vacancies }}</span>
+    </div>
+    
+    <div class="glass-card metric-card" style="{% if pending_applications > 0 %}border-color: var(--warning);{% endif %}">
+        <span class="metric-title" style="{% if pending_applications > 0 %}color: var(--warning);{% endif %}">
+            <i class="fa-solid fa-hourglass-start"></i> Pending Applications
+        </span>
+        <span class="metric-value">{{ pending_applications }}</span>
+    </div>
+    
+    <div class="glass-card metric-card">
+        <span class="metric-title"><i class="fa-solid fa-user-graduate"></i> Active Cohort Interns</span>
+        <span class="metric-value">{{ active_interns }}</span>
+    </div>
+</div>
+
+<div class="glass-card" style="margin-top: 30px; text-align: center; padding: 40px;">
+    <h3 style="margin-bottom: 15px; font-family: var(--font-outfit);">{{ company.company_name }}</h3>
+    <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.6;">
+        Welcome to your corporate provider console. Publish new training and development postings, select students who apply, and track log entries detailing their daily/weekly work.
+    </p>
+</div>
+{% endblock %}

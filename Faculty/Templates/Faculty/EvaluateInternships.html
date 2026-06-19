@@ -1,0 +1,56 @@
+{% extends 'Faculty/FacultyBase.html' %}
+
+{% block title %}Evaluate Internships | EduTrack-X{% endblock %}
+{% block header_title %}Internship Evaluation Queue{% endblock %}
+{% block header_subtitle %}Evaluate reports and completion documents for students under your coordination{% endblock %}
+{% block active_intern %}active{% endblock %}
+
+{% block content %}
+<div class="glass-card">
+    <h3>Pending Internship Reports Queue</h3>
+    
+    {% if reports %}
+    <div class="custom-table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Date Submitted</th>
+                    <th>Student Name</th>
+                    <th>Internship Opportunity</th>
+                    <th>Company Provider</th>
+                    <th>Report Brief</th>
+                    <th>Certificate</th>
+                    <th style="text-align: right;">Review Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in reports %}
+                <tr>
+                    <td>{{ r.internshipreport_date }}</td>
+                    <td>
+                        <strong style="display: block; font-size: 15px;">{{ r.internship.student.student_name }}</strong>
+                        <span style="font-size: 11px; color: var(--text-muted);">Adm: {{ r.internship.student.student_admissionno }}</span>
+                    </td>
+                    <td><strong>{{ r.internship.internship_title }}</strong></td>
+                    <td>{{ r.internship.company.company_name }}</td>
+                    <td>
+                        <a href="{{ r.internshipreport_file.url }}" target="_blank"><i class="fa-solid fa-file-pdf"></i> Report PDF</a>
+                    </td>
+                    <td>
+                        <a href="{{ r.internshipreport_certificate.url }}" target="_blank"><i class="fa-solid fa-certificate"></i> Certificate File</a>
+                    </td>
+                    <td style="text-align: right;">
+                        <a href="{% url 'Faculty:SubmitEvaluation' r.internshipreport_id %}" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
+                            <i class="fa-solid fa-graduation-cap"></i> Evaluate & Grade
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">No internship reports pending evaluation.</p>
+    {% endif %}
+</div>
+{% endblock %}

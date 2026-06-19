@@ -1,0 +1,77 @@
+{% extends 'Student/StudentBase.html' %}
+
+{% block title %}File Complaint | EduTrack-X{% endblock %}
+{% block header_title %}Portal Complaints{% endblock %}
+{% block header_subtitle %}File institutional or technical issues and track resolutions{% endblock %}
+{% block active_complaint %}active{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px;">
+    <!-- Form Card -->
+    <div class="glass-card">
+        <h3>File New Complaint</h3>
+        
+        <form action="" method="post" style="margin-top: 20px;">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label" for="txt_title">Complaint Title / Subject</label>
+                <input class="form-control" type="text" name="txt_title" id="txt_title" required placeholder="e.g. Credit mismatch in SEC course">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="txt_content">Detailed Explanation</label>
+                <textarea class="form-control" name="txt_content" id="txt_content" rows="5" required placeholder="Explain the problem in detail..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">Submit Complaint</button>
+        </form>
+    </div>
+    
+    <!-- Table Card -->
+    <div class="glass-card">
+        <h3>My Filed Complaints</h3>
+        
+        {% if complaints %}
+        <div class="custom-table-container">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th style="width: 120px;">Date</th>
+                        <th>Complaint Details</th>
+                        <th>Admin Resolution</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in complaints %}
+                    <tr>
+                        <td><strong>{{ c.complaint_date }}</strong></td>
+                        <td style="font-size: 13px; line-height: 1.4; vertical-align: top;">
+                            <strong style="display: block; margin-bottom: 5px;">{{ c.complaint_title }}</strong>
+                            {{ c.complaint_content }}
+                        </td>
+                        <td style="font-size: 13px; vertical-align: top;">
+                            {% if c.complaint_status == 1 %}
+                            <span style="color: var(--success); font-weight: 500;">{{ c.complaint_reply }}</span>
+                            {% else %}
+                            <span style="color: var(--text-muted); font-style: italic;">Under investigation</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if c.complaint_status == 0 %}
+                            <span class="badge badge-pending">Pending</span>
+                            {% else %}
+                            <span class="badge badge-success">Resolved</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">No complaints filed.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

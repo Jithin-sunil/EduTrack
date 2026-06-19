@@ -1,0 +1,74 @@
+{% extends 'Administrator/AdminBase.html' %}
+
+{% block title %}Manage Activity Categories | EduTrack-X{% endblock %}
+{% block header_title %}Academic Activity Categories{% endblock %}
+{% block header_subtitle %}Define categories of coursework and non-coursework engagements (e.g. SEC, VAC, MDC, Workshops) {% endblock %}
+{% block active_cat %}active{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px;">
+    <!-- Form Card -->
+    <div class="glass-card">
+        <h3>{% if editdata %}Edit Category{% else %}Create Category{% endif %}</h3>
+        
+        <form action="" method="post" style="margin-top: 20px;">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label" for="txt_name">Category Name</label>
+                <input class="form-control" type="text" name="txt_name" id="txt_name" required value="{{ editdata.activitycategory_name }}" placeholder="e.g. SEC Course">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="txt_desc">Description</label>
+                <textarea class="form-control" name="txt_desc" id="txt_desc" rows="3" required placeholder="Describe category scope...">{{ editdata.activitycategory_description }}</textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">
+                {% if editdata %}Save Changes{% else %}Add Category{% endif %}
+            </button>
+            {% if editdata %}
+            <a href="{% url 'Administrator:ActivityCategory' %}" class="btn btn-secondary" style="width: 100%; margin-top: 10px; display: block; text-align: center;">Cancel Edit</a>
+            {% endif %}
+        </form>
+    </div>
+    
+    <!-- Table Card -->
+    <div class="glass-card">
+        <h3>Category Registry</h3>
+        
+        {% if categories %}
+        <div class="custom-table-container">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Category Name</th>
+                        <th>Description</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in categories %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><strong>{{ c.activitycategory_name }}</strong></td>
+                        <td style="color: var(--text-muted); font-size: 13px; max-width: 300px;">{{ c.activitycategory_description }}</td>
+                        <td style="text-align: right;">
+                            <a href="{% url 'Administrator:edit_activitycategory' c.activitycategory_id %}" class="btn btn-secondary" style="padding: 6px 12px; font-size: 13px; margin-right: 5px;">
+                                <i class="fa-solid fa-pen"></i> Edit
+                            </a>
+                            <a href="{% url 'Administrator:del_activitycategory' c.activitycategory_id %}" onclick="return confirm('Are you sure you want to delete this category?')" class="btn btn-danger" style="padding: 6px 12px; font-size: 13px;">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p style="color: var(--text-muted); text-align: center; margin-top: 30px;">No activity categories registered in the system.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

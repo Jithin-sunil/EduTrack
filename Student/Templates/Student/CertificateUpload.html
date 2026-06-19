@@ -1,0 +1,101 @@
+{% extends 'Student/StudentBase.html' %}
+
+{% block title %}Certificate Wallet | EduTrack-X{% endblock %}
+{% block header_title %}My Certification Wallet{% endblock %}
+{% block header_subtitle %}Upload external course, workshop, or event completion certificates for credit assignment verification{% endblock %}
+{% block active_cert %}active{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px;">
+    <!-- Upload Card -->
+    <div class="glass-card">
+        <h3>Upload Certificate</h3>
+        
+        <form action="" method="post" enctype="multipart/form-data" style="margin-top: 20px;">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label" for="txt_title">Certificate Title</label>
+                <input class="form-control" type="text" name="txt_title" id="txt_title" required placeholder="e.g. AWS Cloud Foundation Certificate">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="sel_activity">Link to Activity / Workshop (Optional)</label>
+                <select name="sel_activity" id="sel_activity">
+                    <option value="">-- Non-course / External certification --</option>
+                    {% for reg in activities %}
+                    <option value="{{ reg.activity.activity_id }}">{{ reg.activity.activity_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="cert_file">Certificate File (Image / PDF)</label>
+                <input class="form-control" type="file" name="cert_file" id="cert_file" required accept="image/*,application/pdf">
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">Upload Document</button>
+        </form>
+    </div>
+    
+    <!-- Table Card -->
+    <div class="glass-card">
+        <h3>My Uploaded Certifications</h3>
+        
+        {% if certs %}
+        <div class="custom-table-container">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Certificate Title</th>
+                        <th>Linked Activity</th>
+                        <th>Document</th>
+                        <th>Assigned Credits</th>
+                        <th>Verify Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in certs %}
+                    <tr>
+                        <td>{{ c.certificate_date }}</td>
+                        <td><strong>{{ c.certificate_title }}</strong></td>
+                        <td>
+                            {% if c.activity %}
+                            {{ c.activity.activity_name }}
+                            {% else %}
+                            <span style="color: var(--text-muted); font-size: 12px;">External/Independent</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ c.certificate_file.url }}" target="_blank"><i class="fa-solid fa-file-pdf"></i> View File</a>
+                        </td>
+                        <td>
+                            {% if c.certificate_status == 1 %}
+                            <span class="badge badge-success">{{ c.certificate_credit }} Credits</span>
+                            {% else %}
+                            <span style="color: var(--text-muted); font-size: 13px;">Pending review</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if c.certificate_status == 0 %}
+                            <span class="badge badge-pending">Pending Verification</span>
+                            {% elif c.certificate_status == 1 %}
+                            <span class="badge badge-success">Verified & Approved</span>
+                            {% else %}
+                            <span class="badge badge-danger">Rejected</span>
+                                {% if c.certificate_remark %}
+                                <span style="display: block; font-size: 11px; color: var(--danger); margin-top: 4px;">Reason: {{ c.certificate_remark }}</span>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p style="color: var(--text-muted); text-align: center; margin-top: 30px;">No certifications uploaded yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

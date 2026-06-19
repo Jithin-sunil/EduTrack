@@ -1,0 +1,83 @@
+{% extends 'Administrator/AdminBase.html' %}
+
+{% block title %}Admin Dashboard | EduTrack-X{% endblock %}
+{% block header_title %}Control Center Dashboard{% endblock %}
+{% block header_subtitle %}Overview of students, faculties, providers, and credit distributions{% endblock %}
+{% block active_dashboard %}active{% endblock %}
+
+{% block content %}
+<div class="metrics-grid">
+    <div class="glass-card metric-card">
+        <span class="metric-title"><i class="fa-solid fa-users"></i> Total Students</span>
+        <span class="metric-value">{{ student_count }}</span>
+    </div>
+    
+    <div class="glass-card metric-card">
+        <span class="metric-title"><i class="fa-solid fa-chalkboard-user"></i> Faculty Members</span>
+        <span class="metric-value">{{ faculty_count }}</span>
+    </div>
+    
+    <div class="glass-card metric-card">
+        <span class="metric-title"><i class="fa-solid fa-building"></i> Company Providers</span>
+        <span class="metric-value">{{ company_count }}</span>
+    </div>
+    
+    <div class="glass-card metric-card" style="border-color: var(--warning);">
+        <span class="metric-title" style="color: var(--warning);"><i class="fa-solid fa-clock"></i> Action Required</span>
+        <span class="metric-value" style="color: var(--warning);">{{ pending_count }}</span>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+    <!-- Broadcast Announcement -->
+    <div class="glass-card">
+        <h3 style="margin-bottom: 20px; font-family: var(--font-outfit);"><i class="fa-solid fa-bullhorn"></i> Broadcast Global Announcement</h3>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label" for="txt_title">Announcement Title</label>
+                <input class="form-control" type="text" name="txt_title" id="txt_title" required placeholder="e.g. FYUGP Project Proposal Deadline Extended">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="txt_content">Announcement Details</label>
+                <textarea class="form-control" name="txt_content" id="txt_content" rows="4" required placeholder="Write details here..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="sel_role">Target Role Audience</label>
+                <select name="sel_role" id="sel_role" required>
+                    <option value="All">All Roles</option>
+                    <option value="Student">Students Only</option>
+                    <option value="Faculty">Faculties Only</option>
+                    <option value="Company">Companies Only</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">Publish Announcement</button>
+        </form>
+    </div>
+    
+    <!-- Recent Notifications -->
+    <div class="glass-card">
+        <h3 style="margin-bottom: 20px; font-family: var(--font-outfit);"><i class="fa-solid fa-bell"></i> Live Feed</h3>
+        
+        {% if notifications %}
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            {% for note in notifications %}
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px;">
+                <h4 style="font-size: 14px; color: var(--primary); margin-bottom: 5px;">{{ note.notification_title }}</h4>
+                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">{{ note.notification_content }}</p>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-top: 10px;">
+                    <span>Audience: <strong>{{ note.notification_role }}</strong></span>
+                    <span>{{ note.notification_date }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p style="color: var(--text-muted); text-align: center; margin-top: 20px;">No notifications posted yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

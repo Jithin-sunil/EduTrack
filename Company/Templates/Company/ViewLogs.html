@@ -1,0 +1,59 @@
+{% extends 'Company/CompanyBase.html' %}
+
+{% block title %}Intern Work Logbook | EduTrack-X{% endblock %}
+{% block header_title %}Student Work Logbook{% endblock %}
+{% block header_subtitle %}Read and provide remarks for student logbook entries: {{ internship.student.student_name }}{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'Company:MonitorInterns' %}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back to Cohort</a>
+</div>
+
+<div class="glass-card">
+    <h3>Accomplishments Log: {{ internship.internship_title }}</h3>
+    <span style="font-size: 14px; color: var(--text-muted); display: block; margin-top: 5px; margin-bottom: 25px;">
+        Intern: <strong>{{ internship.student.student_name }}</strong> • Period: {{ internship.internship_startdate }} to {{ internship.internship_enddate }}
+    </span>
+    
+    {% if logs %}
+    <div class="custom-table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th style="width: 130px;">Date</th>
+                    <th style="width: 80px;">Hours</th>
+                    <th>Accomplished Work description</th>
+                    <th>Mentor Remarks</th>
+                    <th style="text-align: right; width: 320px;">Provide / Update Remark</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td><strong>{{ log.internshiplog_workdate }}</strong></td>
+                    <td><span class="badge badge-primary">{{ log.internshiplog_hours }} hrs</span></td>
+                    <td style="font-size: 13px; line-height: 1.4; vertical-align: top;">{{ log.internshiplog_workdone }}</td>
+                    <td style="font-size: 13px; color: var(--success); vertical-align: top; font-weight: 500;">
+                        {% if log.internshiplog_remark %}
+                        {{ log.internshiplog_remark }}
+                        {% else %}
+                        <span style="color: var(--text-muted); font-style: italic; font-weight: normal;">No feedback yet</span>
+                        {% endif %}
+                    </td>
+                    <td style="text-align: right; vertical-align: middle;">
+                        <form action="{% url 'Company:AddLogRemark' log.internshiplog_id %}" method="post" style="display: flex; gap: 8px; justify-content: flex-end; align-items: center;">
+                            {% csrf_token %}
+                            <input class="form-control" type="text" name="txt_remark" required placeholder="Type remark..." value="{{ log.internshiplog_remark|default:'' }}" style="padding: 6px 12px; font-size: 13px; max-width: 200px;">
+                            <button type="submit" class="btn btn-primary" style="padding: 6px 12px; font-size: 13px;">Save</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">No logbook entries have been submitted by the student yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

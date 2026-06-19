@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranklist Calculator | EduTrack-X Basics</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="landing-nav">
+        <div class="sidebar-logo">
+            <span>EduTrack-X Basics</span>
+        </div>
+        <div>
+            <a href="{% url 'Guest:index' %}" class="btn btn-secondary">Back to Main Home</a>
+        </div>
+    </div>
+    
+    <div class="landing-container" style="max-width: 700px; margin-top: 30px;">
+        <div class="glass-card animate-fade-in">
+            <h2 style="margin-bottom: 25px; text-align: center; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Student Ranklist Calculator</h2>
+            
+            <form action="" method="post">
+                {% csrf_token %}
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label class="form-label" for="txt_name1">First Name</label>
+                        <input class="form-control" type="text" name="txt_name1" id="txt_name1" required placeholder="First Name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="txt_name2">Last Name</label>
+                        <input class="form-control" type="text" name="txt_name2" id="txt_name2" required placeholder="Last Name">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 10px;">
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <div style="display: flex; gap: 15px; margin-top: 10px;">
+                            <label><input type="radio" name="gender" value="Male" checked> Male</label>
+                            <label><input type="radio" name="gender" value="Female"> Female</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="semester">Semester</label>
+                        <select name="semester" id="semester">
+                            <option value="S1">S1</option>
+                            <option value="S2">S2</option>
+                            <option value="S3">S3</option>
+                            <option value="S4">S4</option>
+                            <option value="S5">S5</option>
+                            <option value="S6">S6</option>
+                            <option value="S7">S7</option>
+                            <option value="S8">S8</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="Subject">Stream/Subject</label>
+                        <select name="Subject" id="Subject">
+                            <option value="BCA">BCA</option>
+                            <option value="BSc CS">BSc CS</option>
+                            <option value="MCA">MCA</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 10px;">
+                    <div class="form-group">
+                        <label class="form-label" for="txt_m1">Mark 1 (out of 100)</label>
+                        <input class="form-control" type="number" name="txt_m1" id="txt_m1" min="0" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="txt_m2">Mark 2 (out of 100)</label>
+                        <input class="form-control" type="number" name="txt_m2" id="txt_m2" min="0" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="txt_m3">Mark 3 (out of 100)</label>
+                        <input class="form-control" type="number" name="txt_m3" id="txt_m3" min="0" max="100" required>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 25px;">
+                    <button class="btn btn-primary" type="submit" style="width: 100%;">Generate Ranklist Sheet</button>
+                </div>
+            </form>
+            
+            {% if total is not None %}
+            <div class="glass-card" style="margin-top: 30px; border-color: var(--success); background: rgba(16, 185, 129, 0.05);">
+                <h3 style="margin-bottom: 20px; color: var(--success); font-family: var(--font-outfit); text-align: center;">Ranklist Sheet Result</h3>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 15px;">
+                    <div><span style="color: var(--text-muted);">Student Name:</span> <strong>{{ name }}</strong></div>
+                    <div><span style="color: var(--text-muted);">Gender:</span> <strong>{{ gender }}</strong></div>
+                    <div><span style="color: var(--text-muted);">Semester:</span> <strong>{{ semester }}</strong></div>
+                    <div><span style="color: var(--text-muted);">Subject:</span> <strong>{{ subject }}</strong></div>
+                    <div><span style="color: var(--text-muted);">Total Marks:</span> <strong>{{ total }} / 300</strong></div>
+                    <div><span style="color: var(--text-muted);">Percentage:</span> <strong>{{ percentage }}%</strong></div>
+                    <div><span style="color: var(--text-muted);">Final Grade:</span> <strong style="color: var(--primary);">{{ grade }}</strong></div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div style="display: flex; justify-content: space-between; margin-top: 35px; font-size: 14px;">
+                <a href="{% url 'Basics:Sum' %}">Sum</a>
+                <a href="{% url 'Basics:Calculator' %}">Calculator</a>
+                <a href="{% url 'Basics:Largest' %}">Largest of Three</a>
+                <a href="{% url 'Basics:Salarycalculation' %}">Salary Calculation</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

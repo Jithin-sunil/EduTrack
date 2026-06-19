@@ -1,0 +1,50 @@
+{% extends 'Administrator/AdminBase.html' %}
+
+{% block title %}System Audit Logs | EduTrack-X{% endblock %}
+{% block header_title %}System Audit Logs{% endblock %}
+{% block header_subtitle %}View logs of registrations, master alterations, and evaluations in chronological order{% endblock %}
+{% block active_audit %}active{% endblock %}
+
+{% block content %}
+<div class="glass-card">
+    <h3>Institutional Activity Ledger</h3>
+    
+    {% if logs %}
+    <div class="custom-table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Log ID</th>
+                    <th>User Type</th>
+                    <th>User ID</th>
+                    <th>System Module</th>
+                    <th>Action Details</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td><code>#{{ log.auditlog_id }}</code></td>
+                    <td>
+                        <span class="badge {% if log.auditlog_usertype == 'Admin' %}badge-success{% elif log.auditlog_usertype == 'Faculty' %}badge-pending{% else %}badge-primary{% endif %}">
+                            {{ log.auditlog_usertype }}
+                        </span>
+                    </td>
+                    <td><code>ID: {{ log.auditlog_userid }}</code></td>
+                    <td><strong>{{ log.auditlog_module }}</strong></td>
+                    <td style="font-size: 13px;">{{ log.auditlog_action }}</td>
+                    <td>
+                        <span style="display: block; font-size: 13px;">{{ log.auditlog_date }}</span>
+                        <span style="font-size: 11px; color: var(--text-muted);">{{ log.auditlog_time }}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); text-align: center; margin-top: 30px;">Audit logs are empty.</p>
+    {% endif %}
+</div>
+{% endblock %}
