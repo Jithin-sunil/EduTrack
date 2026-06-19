@@ -1,0 +1,43 @@
+{% extends 'Faculty/FacultyBase.html' %}
+
+{% block title %}Verify Project Milestone | EduTrack-X{% endblock %}
+{% block header_title %}Verify Project Milestone{% endblock %}
+{% block header_subtitle %}Review progress report and documentation submitted by student{% endblock %}
+{% block active_project %}active{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'Faculty:ApproveProjects' %}" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back to Project Space</a>
+</div>
+
+<div class="glass-card" style="max-width: 600px; margin: 0 auto;">
+    <h3>{% if status == 1 %}Approve Milestone{% else %}Request Modifications{% endif %}</h3>
+    
+    <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-top: 20px; margin-bottom: 30px;">
+        <span style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 5px;">Project: {{ milestone.project.project_title }} (Student: {{ milestone.project.student.student_name }})</span>
+        <strong style="display: block; font-size: 16px; margin-bottom: 10px;">{{ milestone.milestone_title }}</strong>
+        <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px;">{{ milestone.milestone_description }}</p>
+        
+        {% if milestone.milestone_file %}
+        <a href="{{ milestone.milestone_file.url }}" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; padding: 8px 16px;">
+            <i class="fa-solid fa-file-pdf"></i> View Progress Documentation
+        </a>
+        {% else %}
+        <span style="color: var(--text-muted); font-size: 13px; font-style: italic;"><i class="fa-solid fa-triangle-exclamation"></i> No progress document uploaded</span>
+        {% endif %}
+    </div>
+    
+    <form action="" method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label class="form-label" for="txt_remark">Guide Feedback Remarks</label>
+            <textarea class="form-control" name="txt_remark" id="txt_remark" rows="4" required placeholder="Type comments to student..."></textarea>
+        </div>
+        
+        <button type="submit" class="btn {% if status == 1 %}btn-success{% else %}btn-warning{% endif %}" style="width: 100%; margin-top: 15px;">
+            {% if status == 1 %}Confirm Approval{% else %}Confirm Request for Modifications{% endif %}
+        </button>
+    </form>
+</div>
+{% endblock %}

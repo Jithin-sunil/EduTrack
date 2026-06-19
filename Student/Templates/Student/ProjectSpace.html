@@ -59,17 +59,17 @@
                     </div>
                     <span>
                         {% if proj.project_status == 0 %}
-                        <span class="badge badge-pending">Proposed / Pending Review</span>
+                        <span class="badge badge-pending">Proposal Submitted</span>
                         {% elif proj.project_status == 1 %}
                         <span class="badge badge-success" style="background: rgba(6, 182, 212, 0.15); color: var(--primary);">Proposal Approved</span>
                         {% elif proj.project_status == 2 %}
                         <span class="badge badge-danger">Proposal Rejected</span>
                         {% elif proj.project_status == 3 %}
-                        <span class="badge badge-pending" style="color: var(--primary); border-color: var(--primary);">Thesis Report Submitted</span>
+                        <span class="badge badge-pending" style="color: var(--primary); border-color: var(--primary);"><i class="fa-solid fa-circle-info"></i> Thesis Submitted</span>
                         {% elif proj.project_status == 4 %}
                         <span class="badge badge-success">Completed & Approved</span>
                         {% elif proj.project_status == 5 %}
-                        <span class="badge badge-pending" style="color: var(--warning); border-color: var(--warning);">Modification Requested</span>
+                        <span class="badge badge-pending" style="color: var(--warning); border-color: var(--warning);">Modifications Requested</span>
                         {% endif %}
                     </span>
                 </div>
@@ -84,6 +84,69 @@
                     <a href="{{ proj.project_report.url }}" target="_blank"><i class="fa-solid fa-file-invoice"></i> Submitted Thesis PDF</a>
                     {% endif %}
                 </div>
+                
+                <!-- Project Milestones & Progress documentation section -->
+                {% if proj.project_status != 2 %}
+                <div style="background: rgba(255, 255, 255, 0.01); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; margin-top: 15px;">
+                    <h5 style="font-size: 14px; margin-bottom: 10px;"><i class="fa-solid fa-bars-progress"></i> Project Milestones & Progress Documentation</h5>
+                    
+                    {% if proj.tbl_projectmilestone_set.all %}
+                    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+                        {% for ms in proj.tbl_projectmilestone_set.all %}
+                        <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong style="font-size: 13px; display: block;">{{ ms.milestone_title }}</strong>
+                                <span style="font-size: 12px; color: var(--text-muted);">{{ ms.milestone_description }}</span>
+                                {% if ms.milestone_file %}
+                                <a href="{{ ms.milestone_file.url }}" target="_blank" style="font-size: 11px; display: block; margin-top: 4px;"><i class="fa-solid fa-file-pdf"></i> Progress Document</a>
+                                {% endif %}
+                                {% if ms.milestone_remark %}
+                                <span style="font-size: 11px; color: var(--primary); display: block; margin-top: 4px;">Guide Comment: {{ ms.milestone_remark }}</span>
+                                {% endif %}
+                            </div>
+                            <span>
+                                {% if ms.milestone_status == 0 %}
+                                <span class="badge badge-pending" style="font-size: 10px;">Pending Review</span>
+                                {% elif ms.milestone_status == 1 %}
+                                <span class="badge badge-success" style="font-size: 10px;">Approved</span>
+                                {% else %}
+                                <span class="badge badge-danger" style="font-size: 10px;">Revision Required</span>
+                                {% endif %}
+                            </span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p style="color: var(--text-muted); font-size: 12px; font-style: italic; margin-bottom: 15px;">No milestones submitted yet.</p>
+                    {% endif %}
+                    
+                    <!-- Submit progress milestone form -->
+                    {% if proj.project_status == 1 or proj.project_status == 5 or proj.project_status == 0 %}
+                    <div style="border-top: 1px dashed var(--border-color); padding-top: 12px;">
+                        <strong style="display: block; font-size: 13px; margin-bottom: 8px;">Upload Progress Documentation</strong>
+                        <form action="" method="post" enctype="multipart/form-data" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: flex-end;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action_type" value="add_milestone">
+                            <input type="hidden" name="proj_id" value="{{ proj.project_id }}">
+                            
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label" style="font-size: 11px; margin-bottom: 4px;">Milestone Title</label>
+                                <input class="form-control" type="text" name="txt_milestone_title" required placeholder="e.g. Requirement Gathering Analysis" style="padding: 6px 10px; font-size: 12px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label" style="font-size: 11px; margin-bottom: 4px;">Progress File (brochure/code brief)</label>
+                                <input class="form-control" type="file" name="milestone_file" accept="application/pdf" style="padding: 4px 10px; font-size: 11px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0; grid-column: span 2;">
+                                <label class="form-label" style="font-size: 11px; margin-bottom: 4px;">Progress Details</label>
+                                <input class="form-control" type="text" name="txt_milestone_desc" required placeholder="Outline modules built..." style="padding: 6px 10px; font-size: 12px;">
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="padding: 8px; font-size: 12px; grid-column: span 2;">Submit Progress Milestone</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
                 
                 <!-- Thesis Upload Form if Approved -->
                 {% if proj.project_status == 1 or proj.project_status == 5 %}

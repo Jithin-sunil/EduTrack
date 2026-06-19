@@ -53,4 +53,51 @@
     <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">No internship reports pending evaluation.</p>
     {% endif %}
 </div>
+
+<div class="glass-card" style="margin-top: 30px;">
+    <h3>Active Coordinated Internships (Ongoing Tracking)</h3>
+    
+    {% if ongoing_internships %}
+    <div class="custom-table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Internship Title</th>
+                    <th>Company Provider</th>
+                    <th>Duration & Location</th>
+                    <th>Skills Required</th>
+                    <th style="text-align: right;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for intern in ongoing_internships %}
+                <tr>
+                    <td>
+                        <strong style="display: block; font-size: 15px;">{{ intern.student.student_name }}</strong>
+                        <span style="font-size: 11px; color: var(--text-muted);">Adm: {{ intern.student.student_admissionno }}</span>
+                    </td>
+                    <td><strong>{{ intern.internship_title }}</strong></td>
+                    <td>{{ intern.company.company_name }}</td>
+                    <td>
+                        <span style="display: block; font-size: 13px;">{{ intern.internship_duration|default:"Not specified" }}</span>
+                        <span style="font-size: 11px; color: var(--text-muted);"><i class="fa-solid fa-location-dot"></i> {{ intern.internship_location|default:"Not specified" }}</span>
+                    </td>
+                    <td>
+                        <span style="font-size: 12px; color: var(--text-muted);">{{ intern.internship_skills|default:"Not specified" }}</span>
+                    </td>
+                    <td style="text-align: right;">
+                        <a href="{% url 'Faculty:ViewInternLogs' intern.internship_id %}" class="btn btn-secondary" style="padding: 8px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-book-open"></i> Monitor Logbook
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">No ongoing internships currently coordinated by you.</p>
+    {% endif %}
+</div>
 {% endblock %}

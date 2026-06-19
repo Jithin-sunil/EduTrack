@@ -20,6 +20,33 @@
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <div class="form-group">
+                    <label class="form-label" for="txt_duration">Duration (e.g. 3 Months)</label>
+                    <input class="form-control" type="text" name="txt_duration" id="txt_duration" required placeholder="e.g. 3 Months">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="txt_vacancies">Number of Vacancies</label>
+                    <input class="form-control" type="number" name="txt_vacancies" id="txt_vacancies" required min="1" value="1">
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label class="form-label" for="txt_location">Location</label>
+                    <input class="form-control" type="text" name="txt_location" id="txt_location" required placeholder="e.g. Bangalore, Kochi, or Remote">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="txt_eligibility">Eligibility Criteria</label>
+                    <input class="form-control" type="text" name="txt_eligibility" id="txt_eligibility" required placeholder="e.g. BCA Semester 5 onwards">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="txt_skills">Skills Required</label>
+                <input class="form-control" type="text" name="txt_skills" id="txt_skills" required placeholder="e.g. JavaScript, Python, Django">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
                     <label class="form-label" for="start_date">Start Date (Optional)</label>
                     <input class="form-control" type="date" name="start_date" id="start_date">
                 </div>
@@ -31,7 +58,7 @@
             
             <div class="form-group">
                 <label class="form-label" for="txt_desc">Description & Role Requirements</label>
-                <textarea class="form-control" name="txt_desc" id="txt_desc" rows="6" required placeholder="Describe responsibilities, required programming languages or tools..."></textarea>
+                <textarea class="form-control" name="txt_desc" id="txt_desc" rows="4" required placeholder="Describe responsibilities..."></textarea>
             </div>
             
             <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">Publish Opportunity</button>
@@ -48,6 +75,13 @@
             <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px;">
                 <h4 style="font-size: 18px; margin-bottom: 8px; font-family: var(--font-outfit);">{{ vac.internship_title }}</h4>
                 <p style="color: var(--text-muted); font-size: 14px; line-height: 1.5; margin-bottom: 12px;">{{ vac.internship_description }}</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px; margin-bottom: 12px; background: rgba(255,255,255,0.01); padding: 10px; border-radius: 8px;">
+                    <div><span style="color: var(--text-muted);">Duration:</span> {{ vac.internship_duration }}</div>
+                    <div><span style="color: var(--text-muted);">Vacancies:</span> {{ vac.internship_vacancies }}</div>
+                    <div><span style="color: var(--text-muted);">Location:</span> {{ vac.internship_location }}</div>
+                    <div><span style="color: var(--text-muted);">Eligibility:</span> {{ vac.internship_eligibility }}</div>
+                    <div style="grid-column: span 2;"><span style="color: var(--text-muted);">Required Skills:</span> <strong style="color: var(--primary);">{{ vac.internship_skills }}</strong></div>
+                </div>
                 <div style="font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; justify-content: space-between;">
                     <span>Created: <strong>{{ vac.internship_date }}</strong></span>
                     <span>Timeline: <strong>{{ vac.internship_startdate|default:"Flexible" }} to {{ vac.internship_enddate|default:"Flexible" }}</strong></span>

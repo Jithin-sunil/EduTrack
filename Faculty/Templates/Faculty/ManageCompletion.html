@@ -20,8 +20,9 @@
                     <th>Admission No</th>
                     <th>Student Name</th>
                     <th>Date Registered</th>
+                    <th>Attendance & Participation Details</th>
                     <th>Completion Evaluation</th>
-                    <th style="text-align: right;">Action Actions</th>
+                    <th style="text-align: right; width: 420px;">Action Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,6 +32,15 @@
                     <td>{{ r.student.student_name }}</td>
                     <td>{{ r.activityregistration_date }}</td>
                     <td>
+                        {% if r.activityregistration_completionstatus == 1 %}
+                        <span style="display: block; font-size: 13px;">Attendance: <strong>{{ r.attendance_percentage }}%</strong></span>
+                        <span style="display: block; font-size: 12px; color: var(--text-muted);">Participation: <strong>{{ r.participation_status }}</strong></span>
+                        <span style="display: block; font-size: 12px; color: var(--text-muted);">Result Grade: <strong style="color: var(--primary);">{{ r.activity_result }}</strong></span>
+                        {% else %}
+                        <span style="color: var(--text-muted); font-style: italic; font-size: 13px;">Pending evaluation</span>
+                        {% endif %}
+                    </td>
+                    <td>
                         {% if r.activityregistration_completionstatus == 0 %}
                         <span class="badge badge-pending">Ongoing / In Progress</span>
                         {% elif r.activityregistration_completionstatus == 1 %}
@@ -39,14 +49,35 @@
                         <span class="badge badge-danger">Failed</span>
                         {% endif %}
                     </td>
-                    <td style="text-align: right;">
+                    <td style="text-align: right; vertical-align: middle;">
                         {% if r.activityregistration_completionstatus == 0 %}
-                        <a href="{% url 'Faculty:CompleteActivityRegistration' r.activityregistration_id 1 %}" class="btn btn-success" style="padding: 8px 16px; font-size: 13px; margin-right: 5px;">
-                            <i class="fa-solid fa-check"></i> Mark Completed
-                        </a>
-                        <a href="{% url 'Faculty:CompleteActivityRegistration' r.activityregistration_id 2 %}" class="btn btn-danger" style="padding: 8px 16px; font-size: 13px;">
-                            <i class="fa-solid fa-xmark"></i> Mark Failed
-                        </a>
+                        <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; text-align: left; display: inline-block;">
+                            <form action="{% url 'Faculty:CompleteActivityRegistration' r.activityregistration_id 1 %}" method="post" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                                {% csrf_token %}
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" style="font-size: 11px; margin-bottom: 2px;">Attendance %</label>
+                                    <input class="form-control" type="number" name="txt_attendance" required min="0" max="100" value="90" style="padding: 4px 8px; font-size: 12px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label" style="font-size: 11px; margin-bottom: 2px;">Grade Result</label>
+                                    <input class="form-control" type="text" name="txt_result" required placeholder="e.g. A+" style="padding: 4px 8px; font-size: 12px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0; grid-column: span 2;">
+                                    <label class="form-label" style="font-size: 11px; margin-bottom: 2px;">Participation Status</label>
+                                    <select name="txt_participation" style="padding: 4px 8px; font-size: 12px;">
+                                        <option value="Active">Active Participant</option>
+                                        <option value="Moderate">Moderate Participant</option>
+                                        <option value="Passive">Passive Participant</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-success" style="padding: 6px; font-size: 12px; grid-column: span 2; margin-top: 5px;">
+                                    <i class="fa-solid fa-check"></i> Complete & Award Credits
+                                </button>
+                            </form>
+                            <a href="{% url 'Faculty:CompleteActivityRegistration' r.activityregistration_id 2 %}" class="btn btn-danger" style="padding: 6px; font-size: 12px; width: 100%; display: block; text-align: center;">
+                                <i class="fa-solid fa-xmark"></i> Mark Failed
+                            </a>
+                        </div>
                         {% else %}
                         <span style="color: var(--text-muted); font-size: 13px;">Evaluation locked</span>
                         {% endif %}

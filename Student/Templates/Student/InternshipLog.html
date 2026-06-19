@@ -16,19 +16,36 @@
         
         <form action="" method="post" style="margin-top: 20px;">
             {% csrf_token %}
-            <div class="form-group">
-                <label class="form-label" for="work_date">Work Date</label>
-                <input class="form-control" type="date" name="work_date" id="work_date" required value="{% now 'Y-m-d' %}">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label class="form-label" for="work_date">Work Date</label>
+                    <input class="form-control" type="date" name="work_date" id="work_date" required value="{% now 'Y-m-d' %}">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="hours">Hours Worked</label>
+                    <input class="form-control" type="number" name="hours" id="hours" required min="1" max="24" value="8">
+                </div>
             </div>
             
             <div class="form-group">
-                <label class="form-label" for="hours">Hours Worked</label>
-                <input class="form-control" type="number" name="hours" id="hours" required min="1" max="24" value="8">
+                <label class="form-label" for="technologies">Technologies Used</label>
+                <input class="form-control" type="text" name="technologies" id="technologies" required placeholder="e.g. Python, Django, SQL">
             </div>
             
             <div class="form-group">
-                <label class="form-label" for="work_done">Work Description & Accomplishments</label>
-                <textarea class="form-control" name="work_done" id="work_done" rows="6" required placeholder="Describe technologies used, challenges faced, and task status..."></textarea>
+                <label class="form-label" for="work_done">Work Completed</label>
+                <textarea class="form-control" name="work_done" id="work_done" rows="3" required placeholder="Outline work completed..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="challenges">Challenges Faced</label>
+                <textarea class="form-control" name="challenges" id="challenges" rows="3" required placeholder="Detail any bottlenecks or issues encountered..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="learning">Learning Outcomes</label>
+                <textarea class="form-control" name="learning" id="learning" rows="3" required placeholder="What new knowledge or skill did you acquire?"></textarea>
             </div>
             
             <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">Save Log Entry</button>
@@ -44,9 +61,11 @@
             <table class="custom-table">
                 <thead>
                     <tr>
-                        <th style="width: 120px;">Date</th>
+                        <th style="width: 110px;">Date</th>
                         <th style="width: 80px;">Hours</th>
-                        <th>Work Description</th>
+                        <th>Accomplished Work</th>
+                        <th>Technologies</th>
+                        <th>Challenges & Outcomes</th>
                         <th>Mentor Remarks</th>
                     </tr>
                 </thead>
@@ -56,6 +75,11 @@
                         <td><strong>{{ log.internshiplog_workdate }}</strong></td>
                         <td><span class="badge badge-primary">{{ log.internshiplog_hours }} hrs</span></td>
                         <td style="font-size: 13px; line-height: 1.4; vertical-align: top;">{{ log.internshiplog_workdone }}</td>
+                        <td style="font-size: 13px; color: var(--primary); vertical-align: top;">{{ log.internshiplog_technologies }}</td>
+                        <td style="font-size: 13px; line-height: 1.4; vertical-align: top;">
+                            <span style="display: block;"><strong>Challenges:</strong> {{ log.internshiplog_challenges }}</span>
+                            <span style="display: block; margin-top: 4px;"><strong>Learning:</strong> {{ log.internshiplog_learning }}</span>
+                        </td>
                         <td style="font-size: 13px; color: var(--success); vertical-align: top;">
                             {% if log.internshiplog_remark %}
                             {{ log.internshiplog_remark }}

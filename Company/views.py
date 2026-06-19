@@ -37,6 +37,11 @@ def PostInternship(request):
         desc = request.POST.get('txt_desc')
         start = request.POST.get('start_date') or None
         end = request.POST.get('end_date') or None
+        duration = request.POST.get('txt_duration')
+        skills = request.POST.get('txt_skills')
+        vacs_count = request.POST.get('txt_vacancies')
+        loc = request.POST.get('txt_location')
+        elig = request.POST.get('txt_eligibility')
         
         tbl_internship.objects.create(
             company=company,
@@ -44,7 +49,12 @@ def PostInternship(request):
             internship_description=desc,
             internship_startdate=start,
             internship_enddate=end,
-            internship_status=0 # Vacancy
+            internship_status=0, # Vacancy
+            internship_duration=duration,
+            internship_skills=skills,
+            internship_vacancies=vacs_count if vacs_count else 1,
+            internship_location=loc,
+            internship_eligibility=elig
         )
         log_action('Company', company.company_id, 'InternshipVacancyCreate', f"Posted internship vacancy: {title}")
         return redirect('Company:PostInternship')

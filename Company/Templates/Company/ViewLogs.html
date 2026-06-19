@@ -20,11 +20,13 @@
         <table class="custom-table">
             <thead>
                 <tr>
-                    <th style="width: 130px;">Date</th>
+                    <th style="width: 110px;">Date</th>
                     <th style="width: 80px;">Hours</th>
-                    <th>Accomplished Work description</th>
+                    <th>Accomplished Work</th>
+                    <th>Technologies</th>
+                    <th>Challenges & Outcomes</th>
                     <th>Mentor Remarks</th>
-                    <th style="text-align: right; width: 320px;">Provide / Update Remark</th>
+                    <th style="text-align: right; width: 280px;">Provide / Update Remark</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +35,11 @@
                     <td><strong>{{ log.internshiplog_workdate }}</strong></td>
                     <td><span class="badge badge-primary">{{ log.internshiplog_hours }} hrs</span></td>
                     <td style="font-size: 13px; line-height: 1.4; vertical-align: top;">{{ log.internshiplog_workdone }}</td>
+                    <td style="font-size: 13px; color: var(--primary); vertical-align: top;">{{ log.internshiplog_technologies }}</td>
+                    <td style="font-size: 13px; line-height: 1.4; vertical-align: top;">
+                        <span style="display: block;"><strong>Challenges:</strong> {{ log.internshiplog_challenges }}</span>
+                        <span style="display: block; margin-top: 4px;"><strong>Learning:</strong> {{ log.internshiplog_learning }}</span>
+                    </td>
                     <td style="font-size: 13px; color: var(--success); vertical-align: top; font-weight: 500;">
                         {% if log.internshiplog_remark %}
                         {{ log.internshiplog_remark }}
@@ -43,7 +50,7 @@
                     <td style="text-align: right; vertical-align: middle;">
                         <form action="{% url 'Company:AddLogRemark' log.internshiplog_id %}" method="post" style="display: flex; gap: 8px; justify-content: flex-end; align-items: center;">
                             {% csrf_token %}
-                            <input class="form-control" type="text" name="txt_remark" required placeholder="Type remark..." value="{{ log.internshiplog_remark|default:'' }}" style="padding: 6px 12px; font-size: 13px; max-width: 200px;">
+                            <input class="form-control" type="text" name="txt_remark" required placeholder="Type remark..." value="{{ log.internshiplog_remark|default:'' }}" style="padding: 6px 12px; font-size: 13px; max-width: 170px;">
                             <button type="submit" class="btn btn-primary" style="padding: 6px 12px; font-size: 13px;">Save</button>
                         </form>
                     </td>

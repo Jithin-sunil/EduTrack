@@ -19,4 +19,6 @@ urlpatterns = [
     
     path('ApproveProjects/', views.ApproveProjects, name='ApproveProjects'),
     path('ApproveProjectAction/<int:pid>/<int:status>/', views.ApproveProjectAction, name='ApproveProjectAction'),
+    path('VerifyMilestone/<int:mid>/<int:status>/', views.VerifyMilestone, name='VerifyMilestone'),
+    path('ViewInternLogs/<int:iid>/', views.ViewInternLogs, name='ViewInternLogs'),
 ]

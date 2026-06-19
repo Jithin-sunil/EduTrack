@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from Guest.models import tbl_faculty, tbl_student
 from Faculty.models import tbl_activity
-from Student.models import tbl_activityregistration, tbl_certificate, tbl_internshipreport, tbl_project, tbl_evaluation, tbl_internship
+from Student.models import tbl_activityregistration, tbl_certificate, tbl_internshipreport, tbl_project, tbl_evaluation, tbl_internship, tbl_projectmilestone, tbl_internshiplog
 from Administrator.models import tbl_activitycategory, tbl_notification
 from Student.credits import update_student_credits
 from Administrator.audit import log_action
@@ -116,15 +116,29 @@ def CompleteActivityRegistration(request, rid, status):
         return redirect('Guest:Login')
         
     reg = tbl_activityregistration.objects.get(activityregistration_id=rid, activity__faculty=faculty)
-    reg.activityregistration_completionstatus = status
-    reg.save()
     
-    action_text = "Completed" if status == 1 else "Failed"
-    log_action('Faculty', faculty.faculty_id, 'ActivityCompletionStatus', f"Marked student {reg.student.student_name} as {action_text} in {reg.activity.activity_name}")
-    
-    if status == 1:
+    if request.method == 'POST' and status == 1:
+        att = request.POST.get('txt_attendance')
+        part = request.POST.get('txt_participation')
+        res = request.POST.get('txt_result')
+        
+        reg.attendance_percentage = att if att else 0
+        reg.participation_status = part if part else ''
+        reg.activity_result = res if res else ''
+        reg.activityregistration_completionstatus = 1
+        reg.save()
+        
+        log_action('Faculty', faculty.faculty_id, 'ActivityCompletionStatus', f"Marked student {reg.student.student_name} as Completed in {reg.activity.activity_name} (Att: {att}%, Part: {part}, Res: {res})")
+        
         # Update student credit ledger
         update_student_credits(reg.student)
+        return redirect('Faculty:ManageCompletion', aid=reg.activity.activity_id)
+        
+    elif status == 2:
+        reg.activityregistration_completionstatus = 2
+        reg.save()
+        log_action('Faculty', faculty.faculty_id, 'ActivityCompletionStatus', f"Marked student {reg.student.student_name} as Failed in {reg.activity.activity_name}")
+        return redirect('Faculty:ManageCompletion', aid=reg.activity.activity_id)
         
     return redirect('Faculty:ManageCompletion', aid=reg.activity.activity_id)
 
@@ -174,7 +188,11 @@ def EvaluateInternships(request):
         internship__faculty=faculty,
         internshipreport_status=0
     )
-    return render(request, 'Faculty/EvaluateInternships.html', {'reports': reports})
+    ongoing = tbl_internship.objects.filter(
+        faculty=faculty,
+        internship_status=2 # Ongoing
+    )
+    return render(request, 'Faculty/EvaluateInternships.html', {'reports': reports, 'ongoing_internships': ongoing})
 
 def SubmitEvaluation(request, report_id):
     faculty = get_faculty(request)
@@ -227,20 +245,37 @@ def ApproveProjectAction(request, pid, status):
         
     proj = tbl_project.objects.get(project_id=pid, faculty=faculty)
     proj.project_status = status
-    proj.save()
-    
-    action_text = "Approved Proposal"
-    if status == 2:
-        action_text = "Rejected Proposal"
-    elif status == 4:
-        action_text = "Approved Final Report (Completed)"
-    elif status == 5:
-        action_text = "Requested Modifications"
-        
-    log_action('Faculty', faculty.faculty_id, 'ProjectAction', f"{action_text} for project: {proj.project_title} by {proj.student.student_name}")
-    
     if status == 4:
         # Sync credits for project
         update_student_credits(proj.student)
         
     return redirect('Faculty:ApproveProjects')
+
+def VerifyMilestone(request, mid, status):
+    faculty = get_faculty(request)
+    if not faculty:
+        return redirect('Guest:Login')
+        
+    ms = tbl_projectmilestone.objects.get(milestone_id=mid, project__faculty=faculty)
+    
+    if request.method == 'POST':
+        remark = request.POST.get('txt_remark')
+        ms.milestone_status = status
+        ms.milestone_remark = remark
+        ms.save()
+        
+        action_text = "Approved Milestone" if status == 1 else "Requested Modifications for Milestone"
+        log_action('Faculty', faculty.faculty_id, 'ProjectMilestoneVerify', f"{action_text}: {ms.milestone_title} of project: {ms.project.project_title}")
+        return redirect('Faculty:ApproveProjects')
+        
+    return render(request, 'Faculty/VerifyMilestone.html', {'milestone': ms, 'status': status})
+
+def ViewInternLogs(request, iid):
+    faculty = get_faculty(request)
+    if not faculty:
+        return redirect('Guest:Login')
+        
+    internship = tbl_internship.objects.get(internship_id=iid, faculty=faculty)
+    logs = tbl_internshiplog.objects.filter(internship=internship).order_by('-internshiplog_workdate')
+    
+    return render(request, 'Faculty/ViewInternLogs.html', {'internship': internship, 'logs': logs})

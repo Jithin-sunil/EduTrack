@@ -9,6 +9,9 @@ class tbl_activityregistration(models.Model):
     activityregistration_date = models.DateField(auto_now_add=True)
     activityregistration_status = models.IntegerField(default=0) # 0 = Pending, 1 = Approved, 2 = Rejected
     activityregistration_completionstatus = models.IntegerField(default=0) # 0 = Ongoing, 1 = Completed, 2 = Failed
+    attendance_percentage = models.IntegerField(default=0)
+    participation_status = models.CharField(max_length=50, blank=True, default='')
+    activity_result = models.CharField(max_length=50, blank=True, default='')
 
 class tbl_certificate(models.Model):
     certificate_id = models.AutoField(primary_key=True)
@@ -32,6 +35,11 @@ class tbl_internship(models.Model):
     internship_enddate = models.DateField(null=True, blank=True)
     internship_status = models.IntegerField(default=0) # 0 = Opportunity/Vacancy, 1 = Applied, 2 = Ongoing, 3 = Completed, 4 = Rejected
     internship_date = models.DateField(auto_now_add=True)
+    internship_duration = models.CharField(max_length=50, blank=True, default='')
+    internship_skills = models.TextField(blank=True, default='')
+    internship_vacancies = models.IntegerField(default=1)
+    internship_location = models.CharField(max_length=100, blank=True, default='')
+    internship_eligibility = models.CharField(max_length=200, blank=True, default='')
 
 class tbl_internshiplog(models.Model):
     internshiplog_id = models.AutoField(primary_key=True)
@@ -41,6 +49,9 @@ class tbl_internshiplog(models.Model):
     internshiplog_hours = models.IntegerField()
     internshiplog_remark = models.TextField(null=True, blank=True)
     internshiplog_date = models.DateField(auto_now_add=True)
+    internshiplog_technologies = models.TextField(blank=True, default='')
+    internshiplog_challenges = models.TextField(blank=True, default='')
+    internshiplog_learning = models.TextField(blank=True, default='')
 
 class tbl_internshipreport(models.Model):
     internshipreport_id = models.AutoField(primary_key=True)
@@ -95,3 +106,13 @@ class tbl_complaint(models.Model):
     complaint_reply = models.TextField(null=True, blank=True)
     complaint_status = models.IntegerField(default=0) # 0 = Pending, 1 = Resolved
     complaint_date = models.DateField(auto_now_add=True)
+
+class tbl_projectmilestone(models.Model):
+    milestone_id = models.AutoField(primary_key=True)
+    project = models.ForeignKey(tbl_project, on_delete=models.CASCADE)
+    milestone_title = models.CharField(max_length=100)
+    milestone_description = models.TextField()
+    milestone_file = models.FileField(upload_to='Assets/ProjectMilestones/', null=True, blank=True)
+    milestone_status = models.IntegerField(default=0) # 0 = Pending, 1 = Approved, 2 = Modification Requested
+    milestone_remark = models.TextField(null=True, blank=True)
+    milestone_date = models.DateField(auto_now_add=True)

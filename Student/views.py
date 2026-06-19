@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from Guest.models import tbl_student, tbl_faculty, tbl_company
 from Faculty.models import tbl_activity
-from Student.models import tbl_activityregistration, tbl_certificate, tbl_internship, tbl_internshiplog, tbl_internshipreport, tbl_project, tbl_feedback, tbl_complaint
+from Student.models import tbl_activityregistration, tbl_certificate, tbl_internship, tbl_internshiplog, tbl_internshipreport, tbl_project, tbl_feedback, tbl_complaint, tbl_projectmilestone
 from Administrator.models import tbl_notification
 from Student.progression import check_progression_eligibility
 from Administrator.audit import log_action
@@ -137,7 +137,12 @@ def ApplyInternship(request, iid):
             internship_description=vacancy.internship_description,
             internship_status=1, # Applied
             internship_startdate=vacancy.internship_startdate,
-            internship_enddate=vacancy.internship_enddate
+            internship_enddate=vacancy.internship_enddate,
+            internship_duration=vacancy.internship_duration,
+            internship_skills=vacancy.internship_skills,
+            internship_vacancies=vacancy.internship_vacancies,
+            internship_location=vacancy.internship_location,
+            internship_eligibility=vacancy.internship_eligibility
         )
         log_action('Student', student.student_id, 'InternshipApply', f"Applied for internship: {vacancy.internship_title} at {vacancy.company.company_name}")
         
@@ -155,12 +160,18 @@ def InternshipLog(request, iid):
         workdate = request.POST.get('work_date')
         workdone = request.POST.get('work_done')
         hours = request.POST.get('hours')
+        technologies = request.POST.get('technologies')
+        challenges = request.POST.get('challenges')
+        learning = request.POST.get('learning')
         
         tbl_internshiplog.objects.create(
             internship=internship,
             internshiplog_workdate=workdate,
             internshiplog_workdone=workdone,
-            internshiplog_hours=hours
+            internshiplog_hours=hours,
+            internshiplog_technologies=technologies if technologies else '',
+            internshiplog_challenges=challenges if challenges else '',
+            internshiplog_learning=learning if learning else ''
         )
         log_action('Student', student.student_id, 'InternshipLog', f"Added log for date: {workdate}")
         return redirect('Student:InternshipLog', iid=iid)
@@ -234,6 +245,22 @@ def ProjectSpace(request):
             proj.project_status = 3 # Report Submitted
             proj.save()
             log_action('Student', student.student_id, 'ProjectReportUpload', f"Uploaded final report for project: {proj.project_title}")
+            
+        elif action_type == 'add_milestone':
+            proj_id = request.POST.get('proj_id')
+            title = request.POST.get('txt_milestone_title')
+            desc = request.POST.get('txt_milestone_desc')
+            file = request.FILES.get('milestone_file')
+            
+            proj = tbl_project.objects.get(project_id=proj_id, student=student)
+            tbl_projectmilestone.objects.create(
+                project=proj,
+                milestone_title=title,
+                milestone_description=desc,
+                milestone_file=file,
+                milestone_status=0
+            )
+            log_action('Student', student.student_id, 'ProjectMilestoneAdd', f"Added milestone progress report: {title}")
             
         return redirect('Student:ProjectSpace')
         
