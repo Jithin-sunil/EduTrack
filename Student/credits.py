@@ -1,6 +1,6 @@
 from Student.models import tbl_studentcredit, tbl_activityregistration, tbl_certificate, tbl_internshipreport, tbl_project
 from Administrator.models import tbl_creditmaster
-from django.db.models import Sum
+from django.db.models import Sum, Q
 
 def update_student_credits(student):
     """
@@ -122,16 +122,17 @@ def get_student_credit_summary(student):
         
     # Catch any other category types
     other_sum = credits_list.exclude(
-        models.Q(studentcredit_type__icontains='SEC') |
-        models.Q(studentcredit_type__icontains='VAC') |
-        models.Q(studentcredit_type__icontains='MDC') |
-        models.Q(studentcredit_type__icontains='Minor') |
-        models.Q(studentcredit_type__icontains='Internship') |
-        models.Q(studentcredit_type__icontains='Project') |
-        models.Q(studentcredit_type__icontains='Certificate') |
-        models.Q(studentcredit_type__icontains='Workshop') |
-        models.Q(studentcredit_type__icontains='Add-on')
+        Q(studentcredit_type__icontains='SEC') |
+        Q(studentcredit_type__icontains='VAC') |
+        Q(studentcredit_type__icontains='MDC') |
+        Q(studentcredit_type__icontains='Minor') |
+        Q(studentcredit_type__icontains='Internship') |
+        Q(studentcredit_type__icontains='Project') |
+        Q(studentcredit_type__icontains='Certificate') |
+        Q(studentcredit_type__icontains='Workshop') |
+        Q(studentcredit_type__icontains='Add-on')
     ).aggregate(total=Sum('studentcredit_credit'))['total'] or 0
+
     
     category_summary['Other'] = other_sum
 
