@@ -7,9 +7,7 @@ urlpatterns = [
     path('Dashboard/', views.Dashboard, name='Dashboard'),
     path('BrowseActivities/', views.BrowseActivities, name='BrowseActivities'),
     path('RegisterActivity/<int:aid>/', views.RegisterActivity, name='RegisterActivity'),
-    
     path('CertificateUpload/', views.CertificateUpload, name='CertificateUpload'),
-    
     path('InternshipPortal/', views.InternshipPortal, name='InternshipPortal'),
     path('ApplyInternship/<int:iid>/', views.ApplyInternship, name='ApplyInternship'),
     path('InternshipLog/<int:iid>/', views.InternshipLog, name='InternshipLog'),

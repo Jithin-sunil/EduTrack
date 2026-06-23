@@ -73,6 +73,8 @@ def RegisterActivity(request, aid):
         
     return redirect('Student:BrowseActivities')
 
+
+
 def CertificateUpload(request):
     student = get_student(request)
     if not student:

@@ -9,61 +9,90 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="main-wrapper">
-        <!-- Sidebar Navigation -->
-        <div class="sidebar">
-            <div class="sidebar-logo">
-                <span>EduTrack-X</span>
+    <!-- Sub Header -->
+    <div class="sub-header">
+        <div class="container">
+            <div class="sub-header-content">
+                <span class="welcome-text">Welcome back, <em>{{ request.session.name }}</em></span>
+                <span class="system-status"><i class="fa-solid fa-circle" style="color: var(--success); font-size: 8px; margin-right: 4px;"></i> System Status: Active</span>
             </div>
-            
-            <ul class="sidebar-menu">
-                <li class="{% block active_dashboard %}{% endblock %}">
-                    <a href="{% url 'Company:Dashboard' %}">
-                        <i class="fa-solid fa-chart-line"></i> Dashboard
-                    </a>
-                </li>
-                <li class="{% block active_post %}{% endblock %}">
-                    <a href="{% url 'Company:PostInternship' %}">
-                        <i class="fa-solid fa-square-plus"></i> Post Opportunity
-                    </a>
-                </li>
-                <li class="{% block active_apps %}{% endblock %}">
-                    <a href="{% url 'Company:InternshipApplications' %}">
-                        <i class="fa-solid fa-users-rectangle"></i> Applicant Queue
-                    </a>
-                </li>
-                <li class="{% block active_monitor %}{% endblock %}">
-                    <a href="{% url 'Company:MonitorInterns' %}">
-                        <i class="fa-solid fa-users-gear"></i> Monitor Interns
-                    </a>
-                </li>
-            </ul>
-            
-            <div class="sidebar-footer">
-                <a href="{% url 'Guest:Logout' %}" class="btn btn-secondary" style="width: 100%;">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </div>
+    </div>
+
+    <!-- Navigation Header Area -->
+    <header class="dashboard-header-nav">
+        <div class="container">
+            <nav class="dashboard-nav">
+                <!-- Logo -->
+                <a href="{% url 'Company:Dashboard' %}" class="logo">
+                    EduTrack-X
                 </a>
+                
+                <!-- Hamburger Trigger for Mobile -->
+                <button class="menu-trigger-btn" id="mobile-menu-trigger" aria-label="Toggle Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <!-- Menu -->
+                <ul class="nav-menu" id="nav-menu">
+                    <li class="{% block active_dashboard %}{% endblock %}">
+                        <a href="{% url 'Company:Dashboard' %}">
+                            <i class="fa-solid fa-chart-line"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="{% block active_post %}{% endblock %}">
+                        <a href="{% url 'Company:PostInternship' %}">
+                            <i class="fa-solid fa-square-plus"></i> Post Opportunity
+                        </a>
+                    </li>
+                    <li class="{% block active_apps %}{% endblock %}">
+                        <a href="{% url 'Company:InternshipApplications' %}">
+                            <i class="fa-solid fa-users-rectangle"></i> Applicant Queue
+                        </a>
+                    </li>
+                    <li class="{% block active_monitor %}{% endblock %}">
+                        <a href="{% url 'Company:MonitorInterns' %}">
+                            <i class="fa-solid fa-users-gear"></i> Monitor Interns
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Right Side Actions -->
+                <div class="nav-right">
+                    <a href="{% url 'Guest:Logout' %}" class="btn-logout">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Main Content Area -->
+    <div class="dashboard-main-content animate-fade-in">
+        <div class="dashboard-header">
+            <div>
+                <h1>{% block header_title %}Provider Portal{% endblock %}</h1>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">{% block header_subtitle %}FYUGP Internship Provider Console{% endblock %}</p>
+            </div>
+            <div class="user-profile-badge">
+                <div class="user-name-role">
+                    <span class="name">{{ request.session.name }}</span>
+                    <span class="role">Corporate Provider</span>
+                </div>
             </div>
         </div>
         
-        <!-- Main Area -->
-        <div class="content-area animate-fade-in">
-            <div class="dashboard-header">
-                <div>
-                    <h1>{% block header_title %}Provider Portal{% endblock %}</h1>
-                    <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">{% block header_subtitle %}FYUGP Internship Provider Console{% endblock %}</p>
-                </div>
-                <div class="user-profile-badge">
-                    <div class="user-name-role">
-                        <span class="name">{{ request.session.name }}</span>
-                        <span class="role">Corporate Provider</span>
-                    </div>
-                </div>
-            </div>
-            
-            {% block content %}
-            {% endblock %}
-        </div>
+        {% block content %}
+        {% endblock %}
     </div>
+
+    <!-- Toggle Script for Mobile -->
+    <script>
+        document.getElementById('mobile-menu-trigger').addEventListener('click', function() {
+            document.getElementById('nav-menu').classList.toggle('show');
+        });
+    </script>
 </body>
 </html>

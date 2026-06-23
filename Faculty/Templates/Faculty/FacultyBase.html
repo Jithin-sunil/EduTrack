@@ -9,76 +9,105 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="main-wrapper">
-        <!-- Sidebar Navigation -->
-        <div class="sidebar">
-            <div class="sidebar-logo">
-                <span>EduTrack-X</span>
+    <!-- Sub Header -->
+    <div class="sub-header">
+        <div class="container">
+            <div class="sub-header-content">
+                <span class="welcome-text">Welcome back, <em>{{ request.session.name }}</em></span>
+                <span class="system-status"><i class="fa-solid fa-circle" style="color: var(--success); font-size: 8px; margin-right: 4px;"></i> System Status: Active</span>
             </div>
-            
-            <ul class="sidebar-menu">
-                <li class="{% block active_dashboard %}{% endblock %}">
-                    <a href="{% url 'Faculty:Dashboard' %}">
-                        <i class="fa-solid fa-chart-line"></i> Dashboard
-                    </a>
-                </li>
-                <li class="{% block active_activities %}{% endblock %}">
-                    <a href="{% url 'Faculty:ManageActivities' %}">
-                        <i class="fa-solid fa-folder-plus"></i> Manage Activities
-                    </a>
-                </li>
-                <li class="{% block active_regs %}{% endblock %}">
-                    <a href="{% url 'Faculty:ActivityRegistrations' %}">
-                        <i class="fa-solid fa-users-viewfinder"></i> Registrations Queue
-                    </a>
-                </li>
-                <li class="{% block active_certs %}{% endblock %}">
-                    <a href="{% url 'Faculty:VerifyCertificates' %}">
-                        <i class="fa-solid fa-stamp"></i> Verify Certificates
-                    </a>
-                </li>
-                <li class="{% block active_intern %}{% endblock %}">
-                    <a href="{% url 'Faculty:EvaluateInternships' %}">
-                        <i class="fa-solid fa-laptop-code"></i> Evaluate Internships
-                    </a>
-                </li>
-                <li class="{% block active_project %}{% endblock %}">
-                    <a href="{% url 'Faculty:ApproveProjects' %}">
-                        <i class="fa-solid fa-lightbulb"></i> Guided Projects
-                    </a>
-                </li>
-            </ul>
-            
-            <div class="sidebar-footer">
-                <a href="{% url 'Guest:Logout' %}" class="btn btn-secondary" style="width: 100%;">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </div>
+    </div>
+
+    <!-- Navigation Header Area -->
+    <header class="dashboard-header-nav">
+        <div class="container">
+            <nav class="dashboard-nav">
+                <!-- Logo -->
+                <a href="{% url 'Faculty:Dashboard' %}" class="logo">
+                    EduTrack-X
                 </a>
+                
+                <!-- Hamburger Trigger for Mobile -->
+                <button class="menu-trigger-btn" id="mobile-menu-trigger" aria-label="Toggle Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <!-- Menu -->
+                <ul class="nav-menu" id="nav-menu">
+                    <li class="{% block active_dashboard %}{% endblock %}">
+                        <a href="{% url 'Faculty:Dashboard' %}">
+                            <i class="fa-solid fa-chart-line"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="{% block active_activities %}{% endblock %}">
+                        <a href="{% url 'Faculty:ManageActivities' %}">
+                            <i class="fa-solid fa-folder-plus"></i> Manage Activities
+                        </a>
+                    </li>
+                    <li class="{% block active_regs %}{% endblock %}">
+                        <a href="{% url 'Faculty:ActivityRegistrations' %}">
+                            <i class="fa-solid fa-users-viewfinder"></i> Registrations Queue
+                        </a>
+                    </li>
+                    <li class="{% block active_certs %}{% endblock %}">
+                        <a href="{% url 'Faculty:VerifyCertificates' %}">
+                            <i class="fa-solid fa-stamp"></i> Verify Certificates
+                        </a>
+                    </li>
+                    <li class="{% block active_intern %}{% endblock %}">
+                        <a href="{% url 'Faculty:EvaluateInternships' %}">
+                            <i class="fa-solid fa-laptop-code"></i> Evaluate Internships
+                        </a>
+                    </li>
+                    <li class="{% block active_project %}{% endblock %}">
+                        <a href="{% url 'Faculty:ApproveProjects' %}">
+                            <i class="fa-solid fa-lightbulb"></i> Guided Projects
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Right Side Actions -->
+                <div class="nav-right">
+                    <a href="{% url 'Guest:Logout' %}" class="btn-logout">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Main Content Area -->
+    <div class="dashboard-main-content animate-fade-in">
+        <div class="dashboard-header">
+            <div>
+                <h1>{% block header_title %}Faculty Portal{% endblock %}</h1>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">{% block header_subtitle %}FYUGP Faculty Coordinator Panel{% endblock %}</p>
+            </div>
+            <div class="user-profile-badge">
+                <div class="user-name-role">
+                    <span class="name">{{ request.session.name }}</span>
+                    <span class="role">Faculty Evaluator</span>
+                </div>
+                {% if faculty.faculty_photo %}
+                <img src="{{ faculty.faculty_photo.url }}" class="user-profile-pic">
+                {% else %}
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--border-color); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold;">🧑‍🏫</div>
+                {% endif %}
             </div>
         </div>
         
-        <!-- Main Area -->
-        <div class="content-area animate-fade-in">
-            <div class="dashboard-header">
-                <div>
-                    <h1>{% block header_title %}Faculty Portal{% endblock %}</h1>
-                    <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">{% block header_subtitle %}FYUGP Faculty Coordinator Panel{% endblock %}</p>
-                </div>
-                <div class="user-profile-badge">
-                    <div class="user-name-role">
-                        <span class="name">{{ request.session.name }}</span>
-                        <span class="role">Faculty Evaluator</span>
-                    </div>
-                    {% if faculty.faculty_photo %}
-                    <img src="{{ faculty.faculty_photo.url }}" class="user-profile-pic">
-                    {% else %}
-                    <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--border-color); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold;">🧑‍🏫</div>
-                    {% endif %}
-                </div>
-            </div>
-            
-            {% block content %}
-            {% endblock %}
-        </div>
+        {% block content %}
+        {% endblock %}
     </div>
+
+    <!-- Toggle Script for Mobile -->
+    <script>
+        document.getElementById('mobile-menu-trigger').addEventListener('click', function() {
+            document.getElementById('nav-menu').classList.toggle('show');
+        });
+    </script>
 </body>
 </html>
