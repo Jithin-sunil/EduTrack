@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-g=29cbqndqss*b6u#u8e7_asi7825#=y88f(=9htw2iqd&u)o$
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'edutrack.onrender.com'
+    'edutrack-dpoz.onrender.com'
 ]
 
 
