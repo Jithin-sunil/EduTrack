@@ -65,7 +65,7 @@
         {% if notifications %}
         <div style="display: flex; flex-direction: column; gap: 15px;">
             {% for note in notifications %}
-            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px;">
+            <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px;">
                 <h4 style="font-size: 14px; color: var(--primary); margin-bottom: 5px;">{{ note.notification_title }}</h4>
                 <p style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">{{ note.notification_content }}</p>
                 <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-top: 10px;">

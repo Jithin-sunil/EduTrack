@@ -2,88 +2,549 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduTrack-X | Integrated FYUGP tracking platform</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="EduTrack - Integrated FYUGP student progression and tracking platform">
+    <meta name="author" content="EduTrack Team">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <title>EduTrack | Integrated FYUGP Tracking Platform</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'Main/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="{% static 'Main/assets/css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'Main/assets/css/templatemo-edu-meeting.css' %}">
+    <link rel="stylesheet" href="{% static 'Main/assets/css/owl.css' %}">
+    <link rel="stylesheet" href="{% static 'Main/assets/css/lightbox.css' %}">
+  </head>
 
 <body>
-    <div class="landing-nav">
-        <div class="sidebar-logo">
-            <span>EduTrack-X</span>
-        </div>
-        <div style="display: flex; gap: 20px;">
 
-            <a href="{% url 'Guest:Login' %}" class="btn btn-primary">Sign In</a>
+  <!-- Sub Header -->
+  <div class="sub-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-sm-8">
+          <div class="left-content">
+            <p>Welcome to <em>EduTrack-X</em> Integrated FYUGP Student Progression Platform.</p>
+          </div>
         </div>
+        <div class="col-lg-4 col-sm-4">
+          <div class="right-icons">
+            <ul>
+              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+              <li><a href="#"><i class="fa fa-globe"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="landing-container" style="text-align: center; padding-top: 80px; padding-bottom: 80px;">
-        <h1 class="animate-fade-in"
-            style="font-size: 56px; font-weight: 800; line-height: 1.1; margin-bottom: 24px; background: linear-gradient(135deg, #ffffff 0%, #a855f7 50%, #06b6d4 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-            The Complete Digital Journey<br>of a FYUGP Student
-        </h1>
-        <p class="animate-fade-in"
-            style="font-size: 20px; color: var(--text-muted); max-width: 800px; margin: 0 auto 40px auto; line-height: 1.6;">
-            EduTrack-X automates academic activity registration, internship lifecycle management, project guides,
-            external certificate verification, and real-time credit calculations.
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky">
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <nav class="main-nav">
+                      <!-- ***** Logo Start ***** -->
+                      <a href="{% url 'Guest:index' %}" class="logo">
+                          EduTrack-X
+                      </a>
+                      <!-- ***** Logo End ***** -->
+                      <!-- ***** Menu Start ***** -->
+                      <ul class="nav">
+                          <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                          <li class="scroll-to-section"><a href="#features">Features</a></li>
+                          <li class="scroll-to-section"><a href="#portals">Portal Access</a></li>
+                          <li class="scroll-to-section"><a href="#courses">Credit Rules</a></li> 
+                          <li class="scroll-to-section"><a href="#contact">Contact Us</a></li> 
+                          <li><a href="{% url 'Guest:Login' %}" style="background: #0891b2; color: #fff !important; border-radius: 20px; padding: 8px 20px !important; margin-left: 10px;">Sign In</a></li>
+                      </ul>        
+                      <a class='menu-trigger'>
+                          <span>Menu</span>
+                      </a>
+                      <!-- ***** Menu End ***** -->
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+  <!-- ***** Main Banner Area Start ***** -->
+  <section class="section main-banner" id="top" data-section="section1">
+      <video autoplay muted loop id="bg-video">
+          <source src="{% static 'Main/assets/images/course-video.mp4' %}" type="video/mp4" />
+      </video>
+
+      <div class="video-overlay header-text">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="caption">
+              <h6>Digital FYUGP Journey</h6>
+              <h2>Empowering Student Progression</h2>
+              <p>EduTrack-X is a unified control center for Four Year Undergraduate Programmes (FYUGP). It automates co-curricular activity registrations, monitors company internships, coordinates academic guidance, tracks research projects, and manages credits in real time.</p>
+              <div class="main-button-red">
+                  <div><a href="{% url 'Guest:Login' %}">Sign In to Dashboard</a></div>
+              </div>
+          </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </section>
+  <!-- ***** Main Banner Area End ***** -->
+
+  <section class="services" id="features">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="owl-service-item owl-carousel">
+          
+            <div class="item">
+              <div class="icon">
+                <img src="{% static 'Main/assets/images/service-icon-01.png' %}" alt="">
+              </div>
+              <div class="down-content">
+                <h4>Credit Tracker</h4>
+                <p>Calculates progression criteria automatically based on co-curricular, extra-curricular, and internship entries.</p>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="icon">
+                <img src="{% static 'Main/assets/images/service-icon-02.png' %}" alt="">
+              </div>
+              <div class="down-content">
+                <h4>Internship Portal</h4>
+                <p>Students browse posted vacancies from verified companies, submit daily logs, and receive evaluation grades.</p>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="icon">
+                <img src="{% static 'Main/assets/images/service-icon-03.png' %}" alt="">
+              </div>
+              <div class="down-content">
+                <h4>Project Guide Space</h4>
+                <p>Facilitates student project proposals, milestones uploads, guide evaluation notes, and final marks entry.</p>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="icon">
+                <img src="{% static 'Main/assets/images/service-icon-02.png' %}" alt="">
+              </div>
+              <div class="down-content">
+                <h4>Certificate Wallet</h4>
+                <p>Upload extracurricular achievements and get them validated directly by department guides.</p>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="icon">
+                <img src="{% static 'Main/assets/images/service-icon-03.png' %}" alt="">
+              </div>
+              <div class="down-content">
+                <h4>System Audit Desk</h4>
+                <p>Chronologically records system activities, registrations, and actions to keep operations fully transparent.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="upcoming-meetings" id="portals">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading text-center">
+            <h2 style="color: #fff !important;">Role Portals & Modules</h2>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="categories">
+            <h4>System Access Roles</h4>
+            <ul>
+              <li><a href="{% url 'Guest:StudentRegister' %}">Students Registration</a></li>
+              <li><a href="{% url 'Guest:FacultyRegister' %}">Faculty Registration</a></li>
+              <li><a href="{% url 'Guest:CompanyRegister' %}">Company Registration</a></li>
+              <li><a href="{% url 'Guest:Login' %}">Institutional Administrator</a></li>
+            </ul>
+            <div class="main-button-red">
+              <a href="{% url 'Guest:Login' %}">Portal Sign In</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="meeting-item">
+                <div class="thumb">
+                  <a href="{% url 'Guest:StudentRegister' %}"><img src="{% static 'Main/assets/images/meeting-01.jpg' %}" alt="Student Registration"></a>
+                </div>
+                <div class="down-content">
+                  <div class="date">
+                    <h6>Student</h6>
+                  </div>
+                  <a href="{% url 'Guest:StudentRegister' %}"><h4>Student Enrollment</h4></a>
+                  <p>Register as a student, build your credit profile, manage internship logs, and track project steps.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="meeting-item">
+                <div class="thumb">
+                  <a href="{% url 'Guest:FacultyRegister' %}"><img src="{% static 'Main/assets/images/meeting-02.jpg' %}" alt="Faculty Portal"></a>
+                </div>
+                <div class="down-content">
+                  <div class="date">
+                    <h6>Faculty</h6>
+                  </div>
+                  <a href="{% url 'Guest:FacultyRegister' %}"><h4>Faculty Guides</h4></a>
+                  <p>Register as a faculty guide, verify co-curricular completions, approve project guides, and evaluate logs.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="meeting-item">
+                <div class="thumb">
+                  <a href="{% url 'Guest:CompanyRegister' %}"><img src="{% static 'Main/assets/images/meeting-03.jpg' %}" alt="Company Registration"></a>
+                </div>
+                <div class="down-content">
+                  <div class="date">
+                    <h6>Company</h6>
+                  </div>
+                  <a href="{% url 'Guest:CompanyRegister' %}"><h4>Company Partners</h4></a>
+                  <p>Register your company, post training positions, select student applications, and review daily logbooks.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="meeting-item">
+                <div class="thumb">
+                  <a href="{% url 'Guest:Login' %}"><img src="{% static 'Main/assets/images/meeting-04.jpg' %}" alt="Admin Access"></a>
+                </div>
+                <div class="down-content">
+                  <div class="date">
+                    <h6>Admin</h6>
+                  </div>
+                  <a href="{% url 'Guest:Login' %}"><h4>Control Center</h4></a>
+                  <p>Verify registration queues, configure departments, setup category masters, and view live audit trails.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="apply-now" id="apply">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 align-self-center">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="item">
+                <h3>REGISTER AS A STUDENT</h3>
+                <p>Embark on your FYUGP journey, register for activities, and get real-time feedback on your progression status.</p>
+                <div class="main-button-red">
+                  <div><a href="{% url 'Guest:StudentRegister' %}">Student Register</a></div>
+              </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="item">
+                <h3>PARTNER AS A COMPANY</h3>
+                <p>Collaborate with our institution, host internships, evaluate candidate logs, and scout top academic talent.</p>
+                <div class="main-button-yellow">
+                  <div><a href="{% url 'Guest:CompanyRegister' %}">Company Register</a></div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="accordions is-first-expanded">
+            <article class="accordion">
+                <div class="accordion-head">
+                    <span>Automated Credit Ledger</span>
+                    <span class="icon">
+                        <i class="icon fa fa-chevron-right"></i>
+                    </span>
+                </div>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>EduTrack-X features an advanced credit engine that automatically monitors and tallies credits from external activities, certificates, internships, and projects based on parameters defined by system administrators.</p>
+                    </div>
+                </div>
+            </article>
+            <article class="accordion">
+                <div class="accordion-head">
+                    <span>Dynamic Activity Hub</span>
+                    <span class="icon">
+                        <i class="icon fa fa-chevron-right"></i>
+                    </span>
+                </div>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>Faculty members can coordinate workshops, co-curricular classes, and co-curricular programs. Students register directly through their console and submit completion proofs to earn credits.</p>
+                    </div>
+                </div>
+            </article>
+            <article class="accordion">
+                <div class="accordion-head">
+                    <span>Research Project Management</span>
+                    <span class="icon">
+                        <i class="icon fa fa-chevron-right"></i>
+                    </span>
+                </div>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>Tracks research thesis progression from proposal submission and supervisor approval, through milestone reports, to final thesis review and grade submittal.</p>
+                    </div>
+                </div>
+            </article>
+            <article class="accordion last-accordion">
+                <div class="accordion-head">
+                    <span>Internship Monitoring</span>
+                    <span class="icon">
+                        <i class="icon fa fa-chevron-right"></i>
+                    </span>
+                </div>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>Allows companies and faculty guides to coordinate internship evaluation. Students fill daily diaries describing work completed, which company mentors verify and faculty guides evaluate for progression credits.</p>
+                    </div>
+                </div>
+            </article>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="our-courses" id="courses">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <h2>Activity & Credit Categories</h2>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="owl-courses-item owl-carousel">
+            <div class="item">
+              <img src="{% static 'Main/assets/images/course-01.jpg' %}" alt="Co-Curricular Activities">
+              <div class="down-content">
+                <h4>Co-Curricular Achievements</h4>
+                <p>Credits awarded for academic workshops, seminars, and technical papers.</p>
+              </div>
+            </div>
+            <div class="item">
+              <img src="{% static 'Main/assets/images/course-02.jpg' %}" alt="Extra-Curricular Achievements">
+              <div class="down-content">
+                <h4>Extra-Curricular Achievements</h4>
+                <p>Credits awarded for sports tournaments, cultural festivals, and community service.</p>
+              </div>
+            </div>
+            <div class="item">
+              <img src="{% static 'Main/assets/images/course-03.jpg' %}" alt="Professional Internships">
+              <div class="down-content">
+                <h4>Professional Internships</h4>
+                <p>Required industrial experience verified by recruiters and institutional mentors.</p>
+              </div>
+            </div>
+            <div class="item">
+              <img src="{% static 'Main/assets/images/course-04.jpg' %}" alt="Research Projects">
+              <div class="down-content">
+                <h4>Research Projects</h4>
+                <p>Year-long final projects and research papers guided by academic advisors.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="our-facts">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-lg-12">
+              <h2>EduTrack-X Platform Overview</h2>
+            </div>
+            <div class="col-lg-6">
+              <div class="row">
+                <div class="col-12">
+                  <div class="count-area-content percentage">
+                    <div class="count-digit">100</div>
+                    <div class="count-title">Automated Progress</div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="count-area-content">
+                    <div class="count-digit">5</div>
+                    <div class="count-title">Active Role Panels</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="row">
+                <div class="col-12">
+                  <div class="count-area-content new-students">
+                    <div class="count-digit">0</div>
+                    <div class="count-title">Paper Logs Required</div>
+                  </div>
+                </div> 
+                <div class="col-12">
+                  <div class="count-area-content">
+                    <div class="count-digit">24</div>
+                    <div class="count-title">Hours Tracking / Day</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+        <div class="col-lg-6 align-self-center">
+          <div class="video">
+            <a href="https://www.youtube.com/watch?v=HndV87XpkWg" target="_blank"><img src="{% static 'Main/assets/images/play-icon.png' %}" alt=""></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-us" id="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 align-self-center">
+          <div class="row">
+            <div class="col-lg-12">
+              <form id="contact" action="" method="post">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <h2>Get in touch with EduTrack-X desk</h2>
+                  </div>
+                  <div class="col-lg-4">
+                    <fieldset>
+                      <input name="name" type="text" id="name" placeholder="YOUR NAME...*" required="">
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-4">
+                    <fieldset>
+                    <input name="email" type="text" id="email" pattern="[^ @]*@[^ @]*" placeholder="YOUR EMAIL..." required="">
+                  </fieldset>
+                  </div>
+                  <div class="col-lg-4">
+                    <fieldset>
+                      <input name="subject" type="text" id="subject" placeholder="SUBJECT...*" required="">
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <textarea name="message" type="text" class="form-control" id="message" placeholder="YOUR MESSAGE..." required=""></textarea>
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <button type="submit" id="form-submit" class="button">SEND MESSAGE NOW</button>
+                    </fieldset>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="right-info">
+            <ul>
+              <li>
+                <h6>Helpline Number</h6>
+                <span>+1 800-EDUTRACK</span>
+              </li>
+              <li>
+                <h6>Support Email</h6>
+                <span>support@edutrack.edu</span>
+              </li>
+              <li>
+                <h6>Campus Address</h6>
+                <span>EduTrack Technical Hub, Main Block Campus, India</span>
+              </li>
+              <li>
+                <h6>System Status</h6>
+                <span>Active & Stable</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <p>Copyright © 2026 EduTrack Co., Ltd. All Rights Reserved. 
+          <br>
+          Design Adaptation: <a href="https://templatemo.com" target="_parent" title="free css templates">TemplateMo</a>
         </p>
-
-        <div class="animate-fade-in" style="display: flex; justify-content: center; gap: 20px; margin-bottom: 80px;">
-            <a href="{% url 'Guest:StudentRegister' %}" class="btn btn-primary"
-                style="padding: 16px 32px; font-size: 16px;">Student Registration</a>
-            <a href="{% url 'Guest:FacultyRegister' %}" class="btn btn-secondary"
-                style="padding: 16px 32px; font-size: 16px;">Faculty Portal</a>
-            <a href="{% url 'Guest:CompanyRegister' %}" class="btn btn-secondary"
-                style="padding: 16px 32px; font-size: 16px;">Company Portal</a>
-        </div>
-
-        <div
-            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; text-align: left;">
-            <div class="glass-card">
-                <div
-                    style="background: var(--primary-glow); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                    <span style="color: var(--primary); font-size: 24px; font-weight: bold;">⚡</span>
-                </div>
-                <h3 style="font-size: 20px; margin-bottom: 12px;">Credit Management Engine</h3>
-                <p style="color: var(--text-muted); font-size: 15px; line-height: 1.5;">
-                    Automatically aggregates credits earned through workshops, projects, certificates, and internships
-                    directly into a central credit ledger.
-                </p>
-            </div>
-
-            <div class="glass-card">
-                <div
-                    style="background: rgba(99, 102, 241, 0.15); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                    <span style="color: var(--secondary); font-size: 24px; font-weight: bold;">📊</span>
-                </div>
-                <h3 style="font-size: 20px; margin-bottom: 12px;">Academic Progression</h3>
-                <p style="color: var(--text-muted); font-size: 15px; line-height: 1.5;">
-                    Real-time indicators tracking total required vs completed credits, graduation eligibility
-                    checklists, and progression status.
-                </p>
-            </div>
-
-            <div class="glass-card">
-                <div
-                    style="background: rgba(168, 85, 247, 0.15); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                    <span style="color: var(--accent); font-size: 24px; font-weight: bold;">📂</span>
-                </div>
-                <h3 style="font-size: 20px; margin-bottom: 12px;">Central Digital Repository</h3>
-                <p style="color: var(--text-muted); font-size: 15px; line-height: 1.5;">
-                    Say goodbye to files and spreadsheets. Securely store certificates, internship reports, and
-                    proposals in your permanent digital student wallet.
-                </p>
-            </div>
-        </div>
     </div>
+  </section>
 
-    <footer
-        style="margin-top: auto; padding: 40px 20px; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-muted); font-size: 14px;">
-        <p>&copy; 2026 EduTrack-X FYUGP Tracking System. All rights reserved.</p>
-    </footer>
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'Main/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'Main/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script src="{% static 'Main/assets/js/isotope.min.js' %}"></script>
+    <script src="{% static 'Main/assets/js/owl-carousel.js' %}"></script>
+    <script src="{% static 'Main/assets/js/lightbox.js' %}"></script>
+    <script src="{% static 'Main/assets/js/tabs.js' %}"></script>
+    <script src="{% static 'Main/assets/js/video.js' %}"></script>
+    <script src="{% static 'Main/assets/js/slick-slider.js' %}"></script>
+    <script src="{% static 'Main/assets/js/custom.js' %}"></script>
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+        };
+
+        $('.scroll-to-section a').on('click', function (e) {
+          e.preventDefault();
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          // checkSection();
+        });
+    </script>
 </body>
 
 </html>

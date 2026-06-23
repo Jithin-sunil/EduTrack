@@ -12,7 +12,7 @@
 <div class="glass-card" style="max-width: 600px; margin: 0 auto;">
     <h3>{% if status == 1 %}Approve & Award Credits{% else %}Reject Certificate{% endif %}</h3>
     
-    <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-top: 20px; margin-bottom: 30px;">
+    <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-top: 20px; margin-bottom: 30px;">
         <span style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 5px;">Uploaded by {{ cert.student.student_name }}</span>
         <strong style="display: block; font-size: 16px; margin-bottom: 10px;">{{ cert.certificate_title }}</strong>
         <a href="{{ cert.certificate_file.url }}" target="_blank"><i class="fa-solid fa-file-pdf"></i> View Certificate File</a>

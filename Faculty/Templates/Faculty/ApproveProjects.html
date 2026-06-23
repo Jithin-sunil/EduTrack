@@ -95,7 +95,7 @@
                     </td>
                 </tr>
                 {% if proj.project_status != 2 %}
-                <tr style="background: rgba(255, 255, 255, 0.015);">
+                <tr style="background: #f8fafc;">
                     <td colspan="6" style="padding: 15px 30px; border-top: none;">
                         <div style="border-left: 2px solid var(--border-color); padding-left: 20px;">
                             <h4 style="font-size: 14px; margin-bottom: 12px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
@@ -105,10 +105,10 @@
                             {% if proj.tbl_projectmilestone_set.all %}
                             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 10px;">
                                 {% for ms in proj.tbl_projectmilestone_set.all %}
-                                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
                                     <div>
                                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
-                                            <strong style="font-size: 14px; color: #fff;">{{ ms.milestone_title }}</strong>
+                                            <strong style="font-size: 14px; color: var(--text-main);">{{ ms.milestone_title }}</strong>
                                             <span>
                                                 {% if ms.milestone_status == 0 %}
                                                 <span class="badge badge-pending" style="font-size: 10px; padding: 2px 6px;">Pending</span>
@@ -131,7 +131,7 @@
                                         {% endif %}
                                         
                                         {% if ms.milestone_remark %}
-                                        <div style="margin-top: 8px; font-size: 11px; color: var(--primary); background: rgba(6, 182, 212, 0.05); padding: 6px; border-radius: 4px;">
+                                        <div style="margin-top: 8px; font-size: 11px; color: var(--primary); background: rgba(8, 145, 178, 0.05); padding: 6px; border-radius: 4px;">
                                             <strong>Guide Remark:</strong> {{ ms.milestone_remark }}
                                         </div>
                                         {% endif %}

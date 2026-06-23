@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from Guest.models import tbl_student, tbl_faculty, tbl_company
 from Faculty.models import tbl_activity
 from Student.models import tbl_activityregistration, tbl_certificate, tbl_internship, tbl_internshiplog, tbl_internshipreport, tbl_project, tbl_feedback, tbl_complaint, tbl_projectmilestone
@@ -18,7 +19,7 @@ def Dashboard(request):
         
     prog = check_progression_eligibility(student)
     notifications = tbl_notification.objects.filter(
-        models.Q(notification_role='Student') | models.Q(notification_role='All')
+        Q(notification_role='Student') | Q(notification_role='All')
     ).order_by('-notification_date')[:5]
     
     context = {

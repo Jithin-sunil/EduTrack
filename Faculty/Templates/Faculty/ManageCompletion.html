@@ -44,14 +44,14 @@
                         {% if r.activityregistration_completionstatus == 0 %}
                         <span class="badge badge-pending">Ongoing / In Progress</span>
                         {% elif r.activityregistration_completionstatus == 1 %}
-                        <span class="badge badge-success" style="background: rgba(16, 185, 129, 0.2);"><i class="fa-solid fa-graduation-cap"></i> Completed (Credits Awarded)</span>
+                        <span class="badge badge-success" style="background: rgba(5, 150, 105, 0.15); color: var(--success); border-color: rgba(5, 150, 105, 0.3);"><i class="fa-solid fa-graduation-cap"></i> Completed (Credits Awarded)</span>
                         {% else %}
                         <span class="badge badge-danger">Failed</span>
                         {% endif %}
                     </td>
                     <td style="text-align: right; vertical-align: middle;">
                         {% if r.activityregistration_completionstatus == 0 %}
-                        <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; text-align: left; display: inline-block;">
+                        <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; text-align: left; display: inline-block;">
                             <form action="{% url 'Faculty:CompleteActivityRegistration' r.activityregistration_id 1 %}" method="post" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
                                 {% csrf_token %}
                                 <div class="form-group" style="margin-bottom: 0;">

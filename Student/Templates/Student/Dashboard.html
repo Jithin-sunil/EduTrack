@@ -44,7 +44,7 @@
         <div style="border-top: 1px solid var(--border-color); padding-top: 20px;">
             <h4 style="font-size: 15px; margin-bottom: 15px;"><i class="fa-solid fa-square-check"></i> Graduation Eligibility Checklist</h4>
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
-                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px;">
+                <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px;">
                     <span style="font-size: 20px;">{% if prog.credits_met %}✅{% else %}❌{% endif %}</span>
                     <div style="font-size: 13px;">
                         <strong style="display: block;">Credit Threshold</strong>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 
-                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px;">
+                <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px;">
                     <span style="font-size: 20px;">{% if prog.has_internship %}✅{% else %}❌{% endif %}</span>
                     <div style="font-size: 13px;">
                         <strong style="display: block;">Internship Status</strong>
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 
-                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px;">
+                <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px;">
                     <span style="font-size: 20px;">{% if prog.has_project %}✅{% else %}❌{% endif %}</span>
                     <div style="font-size: 13px;">
                         <strong style="display: block;">Research Project</strong>
@@ -80,7 +80,7 @@
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
             {% for cat, val in prog.credit_summary.categories.items %}
-            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; text-align: center;">
+            <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; text-align: center;">
                 <span style="font-size: 13px; color: var(--text-muted); text-transform: uppercase; font-weight: 500; display: block; margin-bottom: 8px;">{{ cat }}</span>
                 <span style="font-family: var(--font-outfit); font-size: 28px; font-weight: 700; color: var(--primary);">{{ val }}</span>
                 <span style="font-size: 12px; color: var(--text-muted); display: block; margin-top: 4px;">Credits</span>
@@ -96,7 +96,7 @@
         {% if notifications %}
         <div style="display: flex; flex-direction: column; gap: 15px;">
             {% for note in notifications %}
-            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px;">
+            <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px;">
                 <h4 style="font-size: 14px; color: var(--primary); margin-bottom: 5px;">{{ note.notification_title }}</h4>
                 <p style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">{{ note.notification_content }}</p>
                 <span style="font-size: 11px; color: var(--text-muted); display: block; margin-top: 10px; text-align: right;">{{ note.notification_date }}</span>
