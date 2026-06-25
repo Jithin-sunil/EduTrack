@@ -42,7 +42,6 @@ urlpatterns = [
     path('ViewComplaints/', views.ViewComplaints, name='ViewComplaints'),
     path('ReplyComplaint/<int:cid>/', views.ReplyComplaint, name='ReplyComplaint'),
     
-    # Audit Logs & Reports
-    path('AuditLogs/', views.AuditLogs, name='AuditLogs'),
+    # Reports
     path('ReportGenerator/', views.ReportGenerator, name='ReportGenerator'),
 ]

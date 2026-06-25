@@ -67,11 +67,6 @@
                         <i class="fa-solid fa-circle-exclamation"></i> Complaints
                     </a>
                 </li>
-                <li class="{% block active_audit %}{% endblock %}">
-                    <a href="{% url 'Administrator:AuditLogs' %}">
-                        <i class="fa-solid fa-clock-rotate-left"></i> Audit Logs
-                    </a>
-                </li>
                 <li class="{% block active_report %}{% endblock %}">
                     <a href="{% url 'Administrator:ReportGenerator' %}">
                         <i class="fa-solid fa-file-invoice"></i> Reports

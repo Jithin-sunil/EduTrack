@@ -61,11 +61,10 @@
                       <!-- ***** Logo End ***** -->
                       <!-- ***** Menu Start ***** -->
                       <ul class="nav">
-                          <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                          <li class="scroll-to-section"><a href="#features">Features</a></li>
-                          <li class="scroll-to-section"><a href="#portals">Portal Access</a></li>
-                          <li class="scroll-to-section"><a href="#courses">Credit Rules</a></li> 
-                          <li class="scroll-to-section"><a href="#contact">Contact Us</a></li> 
+                          <li><a href="{% url 'Guest:index' %}" class="active">Home</a></li>
+                          <li><a href="{% url 'Guest:StudentRegister' %}">Student Register</a></li>
+                          <li><a href="{% url 'Guest:FacultyRegister' %}">Faculty Register</a></li>
+                          <li><a href="{% url 'Guest:CompanyRegister' %}">Company Register</a></li>
                           <li><a href="{% url 'Guest:Login' %}" style="background: #0891b2; color: #fff !important; border-radius: 20px; padding: 8px 20px !important; margin-left: 10px;">Sign In</a></li>
                       </ul>        
                       <a class='menu-trigger'>

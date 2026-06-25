@@ -40,11 +40,4 @@ class tbl_notification(models.Model):
     notification_date = models.DateField(auto_now_add=True)
     notification_status = models.IntegerField(default=0) # 0 = Unread, 1 = Read
 
-class tbl_auditlog(models.Model):
-    auditlog_id = models.AutoField(primary_key=True)
-    auditlog_usertype = models.CharField(max_length=20) # Admin, Student, Faculty, Company
-    auditlog_userid = models.IntegerField()
-    auditlog_module = models.CharField(max_length=50)
-    auditlog_action = models.CharField(max_length=255)
-    auditlog_date = models.DateField(auto_now_add=True)
-    auditlog_time = models.TimeField(auto_now_add=True)
+

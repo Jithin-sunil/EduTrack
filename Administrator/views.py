@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from Administrator.models import tbl_adminregistration, tbl_department, tbl_programme, tbl_activitycategory, tbl_creditmaster, tbl_notification, tbl_auditlog
+from Administrator.models import tbl_adminregistration, tbl_department, tbl_programme, tbl_activitycategory, tbl_creditmaster, tbl_notification
 from Guest.models import tbl_student, tbl_faculty, tbl_company
 from Student.models import tbl_feedback, tbl_complaint, tbl_studentcredit
 from Administrator.audit import log_action
@@ -350,13 +350,6 @@ def ReplyComplaint(request, cid):
         
     return render(request, 'Administrator/Reply.html', {'type': 'Complaint', 'data': complaint})
 
-# Audit Logs
-def AuditLogs(request):
-    if 'aid' not in request.session:
-        return redirect('Guest:Login')
-        
-    logs = tbl_auditlog.objects.all().order_by('-auditlog_date', '-auditlog_time')
-    return render(request, 'Administrator/AuditLogs.html', {'logs': logs})
 
 # Institutional Report Generator
 def ReportGenerator(request):
